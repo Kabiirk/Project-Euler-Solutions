@@ -4,7 +4,7 @@ The prime factors of 13195 are 5, 7, 13 and 29.
 
 What is the largest prime factor of the number 600851475143 ?
 
-Answer : 233168
+Answer : 6857
 */
 
 /*
@@ -46,10 +46,12 @@ int SieveOfEratosthenes(int x,long long signed int n)
             }
             return res;
 }
+
 int main()
 {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
+    // 775146 is sqrt of 600851475143
     cout<<SieveOfEratosthenes(775146,600851475143);//Return the answer
 
     // long long signed int n;cin>>n;   for value of n

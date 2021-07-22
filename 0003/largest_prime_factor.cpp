@@ -13,78 +13,46 @@ TIPS:
 Naive Approach : The approach is simple, just factorise the 
 given number by dividing it with the divisor of a number and 
 keep updating the maximum prime factor. Complexity : O(sqrt(n))
+
 Better Alternative : Sieve of Eratosthenes. Complexity : O(n*log2*log2(n))
+
 Even Better : Sieve of Atkin (slightly faster than Sieve of Eratosthenes)
 */
 
-#include<iostream>
-#include "bits/stdc++.h"
+#include <bits/stdc++.h>
 using namespace std;
- 
-#define MAXN   100001
- 
-// stores smallest prime factor for every number
-int spf[MAXN];
- 
-// Calculating SPF (Smallest Prime Factor) for every
-// number till MAXN.
-// Time Complexity : O(nloglogn)
-void sieve()
+
+int SieveOfEratosthenes(int x,long long signed int n)
 {
-    spf[1] = 1;
-    for (int i=2; i<MAXN; i++)
+	//use sieve upto square root of 
+	// required number
+    bool prime[x];                                 
+    memset(prime, true, sizeof(prime));
  
-        // marking smallest prime factor for every
-        // number to be itself.
-        spf[i] = i;
- 
-    // separately marking spf for every even
-    // number as 2
-    for (int i=4; i<MAXN; i+=2)
-        spf[i] = 2;
- 
-    for (int i=3; i*i<MAXN; i++)
+    for (long long signed int p = 2; p * p <= x; p++)    
     {
-        // checking if i is prime
-        if (spf[i] == i)
+        if (prime[p] == true) 
         {
-            // marking SPF for all numbers divisible by i
-            for (int j=i*i; j<MAXN; j+=i)
- 
-                // marking spf[j] if it is not
-                // previously marked
-                if (spf[j]==j)
-                    spf[j] = i;
+            for (long long signed int i = p * p; i <= x; i += p)
+                prime[i] = false;
         }
     }
+    int res;
+    for (long long signed int p = 2; p <= x; p++)
+        if (prime[p])
+            {
+                if(n%p==0)   //if number is divisble by prime number than update with 
+                res=p;        //latest value of prime number
+            }
+            return res;
 }
- 
-// A O(log n) function returning primefactorization
-// by dividing by smallest prime factor at every step
-vector<int> getFactorization(int x)
+int main()
 {
-    vector<int> ret;
-    while (x != 1)
-    {
-        ret.push_back(spf[x]);
-        x = x / spf[x];
-    }
-    return ret;
-}
- 
-// driver program for above function
-int main(int argc, char const *argv[])
-{
-    // precalculating Smallest Prime Factor
-    sieve();
-    int x = 12246;
-    cout << "prime factorization for " << x << " : ";
- 
-    // calling getFactorization function
-    vector <int> p = getFactorization(x);
- 
-    for (int i=0; i<p.size(); i++)
-        cout << p[i] << " ";
-    cout << endl;
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout<<SieveOfEratosthenes(775146,600851475143);//Return the answer
+
+    // long long signed int n;cin>>n;   for value of n
+   //cout<<SieveOfEratosthenes(sqrt(n),n);
     return 0;
 }

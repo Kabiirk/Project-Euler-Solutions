@@ -1,4 +1,5 @@
 /*
+Problem 11
 In the 20×20 grid below, four numbers along a diagonal line have been marked in red (marked with '[]' here).
 
 08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
@@ -26,7 +27,7 @@ The product of these numbers is 26 × 63 × 78 × 14 = 1788696.
 
 What is the greatest product of four adjacent numbers in the same direction (up, down, left, right, or diagonally) in the 20×20 grid?
 
-Answer : 
+Answer : 70600674
 */
 
 /*
@@ -44,6 +45,8 @@ And finally the greatest product is printed.
 
 #include <iostream>
 
+using namespace std;
+
 int main()
 {
   // always a 20x20 matrix
@@ -51,45 +54,44 @@ int main()
   unsigned int matrix[Size][Size];
 
   // read from console
-  for (unsigned int y = 0; y < Size; y++)
-    for (unsigned int x = 0; x < Size; x++)
-      std::cin >> matrix[x][y];
+  for (unsigned int y = 0; y < Size; y++){
+  	for (unsigned int x = 0; x < Size; x++){
+  		cin >> matrix[x][y];
+	  }  
+  }
+  
 
   unsigned int best = 0;
   // walk through all cells of the matrix
-  for (unsigned int y = 0; y < Size; y++)
-    for (unsigned int x = 0; x < Size; x++)
-    {
+  for (unsigned int y = 0; y < Size; y++){
+  	for (unsigned int x = 0; x < Size; x++){
       // three more horizontal cells (right)
-      if (x + 3 < Size)
-      {
+      if (x + 3 < Size){
         unsigned int current = matrix[x][y] * matrix[x+1][y] * matrix[x+2][y] * matrix[x+3][y];
         if (best < current)
           best = current;
       }
       // three more vertical cells available (down)
-      if (y + 3 < Size)
-      {
+      if (y + 3 < Size){
         unsigned int current = matrix[x][y] * matrix[x][y+1] * matrix[x][y+2] * matrix[x][y+3];
         if (best < current)
           best = current;
       }
       // three more diagonal cells (right-down)
-      if (x + 3 < Size && y + 3 < Size)
-      {
+      if (x + 3 < Size && y + 3 < Size){
         unsigned int current = matrix[x][y] * matrix[x+1][y+1] * matrix[x+2][y+2] * matrix[x+3][y+3];
         if (best < current)
           best = current;
       }
       // three more diagonal cells (left-down)
-      if (x + 3 < Size && y >= 3)
-      {
+      if (x + 3 < Size && y >= 3){
         unsigned int current = matrix[x][y] * matrix[x+1][y-1] * matrix[x+2][y-2] * matrix[x+3][y-3];
         if (best < current)
           best = current;
       }
     }
+  }
 
-  std::cout << best << std::endl;
+  cout << best << endl;
   return 0;
 }

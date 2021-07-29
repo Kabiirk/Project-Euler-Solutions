@@ -17,7 +17,7 @@ We can see that 28 is the first triangle number to have over five divisors.
 
 What is the value of the first triangle number to have over five hundred divisors?
 
-Answer : 
+Answer : 76576500
 */
 
 /*
@@ -60,13 +60,76 @@ Hence the problem has been reduced to the just finding out prime factorization o
 
 #include <bits/stdc++.h>
 
-const int MAX = 100000;
-
 using namespace std;
+
+const int MAX = 100000;
+bool prime[MAX+1];
+
+void sieve()
+{
+	memset(prime, true, sizeof(prime));
+	
+	for(int p=2; p*p<MAX; p++){
+		if(prime[p] == true){
+			for(int i = p*2; i<MAX; i+=p) {
+				prime[i] = false;
+			}
+		}
+	}
+}
+
+int divisorCount(int n){
+	
+	int total = 1;
+	for(int p = 2; p<=n; p++) {
+		if(prime[p]) {
+			
+			int count = 0;
+			if(n%p == 0){
+				while(n%p == 0){
+					n = n/p;
+					count++;
+				}
+			}
+			total = total * (count+1);
+		}
+	}
+	return total;
+}
+
+// gives 1st number with over 'n' divisors
+int findNumber(int n){
+	if(n==1){
+		return 3;
+	}
+	
+	int i = 2; // initial number
+	int count = 0;
+	int second = 1;
+	int first = 1;
+	
+	while(count <= n){
+		// even
+		if(i%2 == 0){
+			first = divisorCount(i+1);
+			count = first*second;
+		}
+		// odd
+		else{
+			second = divisorCount((i+1)/2);
+			count = first*second;
+		}
+		i++;
+	}
+	return i*(i-1)/2;
+}
+
 
 int main()
 {
-    
+    int n = 500;
+    sieve();
+    cout<<findNumber(n)<<endl;
     
     return 0;
 }

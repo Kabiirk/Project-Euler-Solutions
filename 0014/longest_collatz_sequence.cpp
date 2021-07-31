@@ -30,12 +30,12 @@ at the cost of higher memory usage.
 using namespace std;
 
 int CollatzChainLength(unsigned int n){
-	int counter = 1; // the starting number is also a part of the chain
+	int chain_length = 1; // the starting number is also a part of the chain
 	while(n != 1){
 		n = (int(n%2==0)*n/2) + (int(n%2!=0)*((3*n)+1));
-		counter+=1;
+		chain_length+=1;
 	}
-	return counter;
+	return chain_length;
 }
 
 int main()

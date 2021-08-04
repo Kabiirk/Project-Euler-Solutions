@@ -18,13 +18,13 @@ TIPS:
 20-99 -> [number%10]-ty [numberName(1-9)]
 e.g.            Twen-ty  One,
                 Thir-ty  Two,
-				 Six-ty  Nine
+				Six-ty  Nine
 
 100-999 -> [number%100] hunderd and [numberName(number%100)]
                                     |______________________|
                                               |
                             Done recursively as this part is now essentially either
-							numberName(1-20) case or numberName(20-999) case
+						numberName(1-20) case or numberName(20-999) case
 e.g.                    Four  hundred and Twenty
                        Seven  hundred and Eighty Four
 
@@ -84,8 +84,7 @@ string removeSpaces(string s){
 }
  
 
-int main()
-{
+int main(){
 	int n = 1000;
 	int one_thousand_string_length = 11; // One Thousand -> 11 letters excluding the space
 	int sum_of_names = 0;

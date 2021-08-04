@@ -18,7 +18,7 @@ TIPS:
 20-99 -> [number%10]-ty [numberName(1-9)]
 e.g.            Twen-ty  One,
                 Thir-ty  Two,
-	            Six-ty   Nine
+				 Six-ty  Nine
 
 100-999 -> [number%100] hunderd and [numberName(number%100)]
                                     |______________________|
@@ -73,7 +73,7 @@ string numberName(int number){
 }
 
 string removeSpaces(string s){
-	int l = s.length(); // original length
+    int l = s.length(); // original length
     int c = count(s.begin(), s.end(),' '); // counting the number of whitespaces
  
     remove(s.begin(), s.end(),' '); // removing all the whitespaces

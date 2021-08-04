@@ -16,15 +16,15 @@ Answer : 21124
 TIPS:
 1-20 -> Unique names
 20-99 -> [number%10]-ty [numberName(1-9)]
-e.g.                  Twen-ty  One,
-                      Thir-ty  Two,
-	                   Six-ty   Nine
+e.g.            Twen-ty  One,
+                Thir-ty  Two,
+	            Six-ty   Nine
 
 100-999 -> [number%100] hunderd and [numberName(number%100)]
-                                          |______________________|
-                                                   |
-                                Done recursively as this part is now essentially either
-								numberName(1-20) case 0r numberName(20-999) case
+                                    |______________________|
+                                              |
+                            Done recursively as this part is now essentially either
+							numberName(1-20) case or numberName(20-999) case
 e.g.                    Four  hundred and Twenty
                        Seven  hundred and Eighty Four
 
@@ -72,8 +72,7 @@ string numberName(int number){
 	}
 }
 
-string removeSpaces(string s)
-{
+string removeSpaces(string s){
 	int l = s.length(); // original length
     int c = count(s.begin(), s.end(),' '); // counting the number of whitespaces
  

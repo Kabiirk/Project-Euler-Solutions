@@ -54,40 +54,59 @@ For e.g. we should write our matrix as:
 8 5 9 3         | 8,5,9,3 |    |
                 +-       -+
 
-Let T be an N row triangle.
+Algorithm :
+1) Let T be an N row triangle.
+2) Let S be the maximum sum descending from a given node: S[r][n] is the
+   maximum sum descent starting from node (r,n).
+3) The goal is to compute the value of S[0][0].
+4) The values of S for the bottom row of T (row N-1) are just
+   the values of the bottom row of T, nothing more:
+   S[N-1][n] = T[N-1][n]
+5) For all other nodes (r,n), the value of S[r][n] is
+   the value of T[r][n] plus the greater value of:
+   S[r+1][n] - the maximum sum descending from the left child.
+   S[r+1][n+1] - the maximum sum descending from the right child.
+6) So the recurrence relation is:
+   S[N-1][n] = T[N-1][n]
+   S[r][n] = T[r][n] + max(S[r+1][n], S[r+1][n+1])
 
-Let S be the maximum sum descending from a given node: S[r][n] is the maximum sum descent starting from node (r,n).
+E.g. of Approach :
+We start with a triangle that looks like
 
-The goal is to compute the value of S[0][0].
+   3
+  7 4
+ 2 4 6
+8 5 9 3
 
-The values of S for the bottom row of T (row N-1) are just the values of the bottom row of T, nothing more:
+Applying the algorithm to the small problem we
+will need three iterations. The first iteration
+we apply the rule a + max(b,c) which creates a new triangle which looks as
 
-S[N-1][n] = T[N-1][n]
+   3
+  7 4
+10 13 15
 
-For all other nodes (r,n), the value of S[r][n] is the value of T[r][n] plus the greater value of:
+Making the second iteration of the algorithm makes the triangle look
 
-S[r+1][n] - the maximum sum descending from the left child.
-S[r+1][n+1] - the maximum sum descending from the right child.
-So the recurrence relation is:
+  3
+20 19
 
-S[N-1][n] = T[N-1][n]
-
-S[r][n] = T[r][n] + max(S[r+1][n], S[r+1][n+1])
-
-
-
+And if we run the algorithm once more, the triangle
+collapses to one number – 23 – which is the answer to the question.
 */
+
+// TODO : Make code input more dynamic instead of being hard-coded
 
 #include <bits/stdc++.h>
 
 using namespace std;
 
-int maxPathSum(int triangle[][15], int m, int n){
+int maxPathSum(int triangle[15][15], int m, int n){
 	// bottom up addition
 	for(int i=m-1; i>=0; i--){
 		for(int j=0; j<=i; j++){
 			triangle[i][j] += max(triangle[i+1][j], triangle[i+1][j+1]);
-		}
+		}                  //     Left Child        Right Child
 	}
 	return triangle[0][0];
 }

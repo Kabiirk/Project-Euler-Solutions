@@ -95,8 +95,6 @@ And if we run the algorithm once more, the triangle
 collapses to one number – 23 – which is the answer to the question.
 */
 
-// TODO : Make code input more dynamic instead of being hard-coded
-
 #include <bits/stdc++.h>
 
 using namespace std;

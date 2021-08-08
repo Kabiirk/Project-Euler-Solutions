@@ -12,6 +12,31 @@ Answer : 648
 
 /*
 TIPS:
+We calculate factorial normally, but
+instead of using int/long/long long int to hold our number
+We use an array where each index hold one digit of the number
+after multiplication.
+e.g. say our initial array 'A' holds value 1 :
+[1, 0, 0, ...]
+
+A*2 will be :
+[2, 0, 0, ...]
+
+similarly now A*7 (using current value A holds in previous step) :
+[4, 1, 0 ...] 
+(it should be 14, but digits are stored in reverse,
+makes it easier to accomodate the carry.)
+
+now A*8 becomes :
+[2, 1, 1 ...]
+
+NOTE :
+Here a pre-defined array of size 500 was used (to hold numbers 500 digits long)
+but it is a little hard-coded , instead, a vector could be used and carry could
+be added with the push_back() method accordingly.
+
+Another thing to keep in mind is that while multiplying, unlike adding,
+carry-over value can be >1, or very large.
 */
 
 #include <bits/stdc++.h>
@@ -25,7 +50,6 @@ using namespace std;
 int multiply(int x, int res[], int res_size);
  
 // This function finds factorial of large numbers
-// and prints them
 int factorialSum(int n)
 {
     int res[MAX];
@@ -42,16 +66,10 @@ int factorialSum(int n)
     for (int i=res_size-1; i>=0; i--)
     	sum+=res[i];
         //cout << res[i];
+    // returns sum of digits by iterating over the array
     return sum;
 }
  
-// This function multiplies x with the number
-// represented by res[].
-// res_size is size of res[] or number of digits in the
-// number represented by res[]. This function uses simple
-// school mathematics for multiplication.
-// This function may value of res_size and returns the
-// new value of res_size
 int multiply(int x, int res[], int res_size)
 {
     int carry = 0;  // Initialize carry

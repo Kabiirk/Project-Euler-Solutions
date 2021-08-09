@@ -3,7 +3,8 @@ Problem 21
 Let d(n) be defined as the sum of proper divisors of n (numbers less than n which divide evenly into n).
 If d(a) = b and d(b) = a, where a ? b, then a and b are an amicable pair and each of a and b are called amicable numbers.
 
-For example, the proper divisors of 220 are 1, 2, 4, 5, 10, 11, 20, 22, 44, 55 and 110; therefore d(220) = 284. The proper divisors of 284 are 1, 2, 4, 71 and 142; so d(284) = 220.
+For example, the proper divisors of 220 are 1, 2, 4, 5, 10, 11, 20, 22, 44, 55 and 110; therefore d(220) = 284.
+The proper divisors of 284 are 1, 2, 4, 71 and 142; so d(284) = 220.
 
 Evaluate the sum of all the amicable numbers under 10000.
 
@@ -12,9 +13,20 @@ Answer : 31626
 
 /*
 TIPS:
-Brute Force :
-Prime Factorisation :
+ref.: https://mathschallenge.net/faq
 
+1) Brute Force :
+The approach runs through all numbers and calculate the sum of factors.
+If the sum of proper divisors is larger than the number, then we calculate
+the sum of proper divisors for the just found sum of proper divisors, to
+check if they are amicable numbers. Since we iterate over all numbers, we
+only need to check if the sum of proper divisors is larger than the number
+itself, since otherwise it will already be checked. All we need to figure out now,
+is how to calculate the sum of factors with brute force.
+
+2) Prime Factorisation :
+Finding the divisors of a number can be done very efficiently using prime factorisation.
+ref.: https://mathworld.wolfram.com/DivisorFunction.html
 */
 
 #include <bits/stdc++.h>

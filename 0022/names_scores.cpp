@@ -23,6 +23,8 @@ TIPS:
 	3.2) Multiply it with the name's index (after sorting).
 	3.3) Keep adding iteratively to variable name_score.
 
+For alternate approaches using other algorithms
+Ref. : https://www.mathblog.dk/project-euler-22-what-is-the-total-of-all-the-name-scores-in-the-file-of-first-names/
 */
 
 #include <bits/stdc++.h>
@@ -77,7 +79,7 @@ int main()
 	}
 	
 	// Sort the vector Alphabetically
-	sort(container.begin(),container.end(),stringComparison);
+	sort(container.begin(), container.end(),  stringComparison);
 	
 	// Name Score Calculation
 	unsigned long long int name_score = 0;

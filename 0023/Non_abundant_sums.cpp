@@ -13,7 +13,7 @@ be expressed as the sum of two abundant numbers is less than this limit.
 
 Find the sum of all the positive integers which cannot be written as the sum of two abundant numbers.
 
-Answer : 
+Answer : 4179871
 */
 
 /*
@@ -21,13 +21,55 @@ TIPS:
 
 */
 
-#include <bits/stdc++.h>
+#include <array>
+#include <iostream>
+#include <vector>
 
-using namespace std;
-
-
-int main()
+long sum_of_dividends(int n)
 {
-    cout<<"Hello Euler !"<<endl;
-    return 0;
+    long sum{1};
+    int i = 2;
+    for (int j = n; i < j; ++i)
+    {
+        if ( n % i == 0 )
+        {
+            sum += i;
+            j = n / i;
+            if (i == j)
+               break;
+            sum += j;
+        }
+    }
+    return sum;
+}
+
+int main() 
+{
+    std::vector<int> abundants;
+    abundants.reserve(7000);
+    constexpr int max_value = 28123;
+    for (int i{1}; i <= max_value; ++i)
+    {
+        if (sum_of_dividends(i) > i)
+            abundants.push_back(i);
+    }
+
+    std::array<bool, max_value> are_sums{};
+
+    for (unsigned i{}; i < abundants.size(); ++i)
+    {
+        for (unsigned j{i}; ; ++j)
+        {
+            long k = abundants[i] + abundants[j];
+            if (k >= max_value)
+                break;
+            are_sums[k] = true;
+        } 
+    }
+    long sum{};
+    for (int i{}; i < max_value; ++i)
+        if (!are_sums[i])
+            sum += i;
+
+    std::cout << sum << '\n';
 }

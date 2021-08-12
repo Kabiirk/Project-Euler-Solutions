@@ -9,7 +9,7 @@ we call it lexicographic order. The lexicographic permutations of 0, 1 and 2 are
 
 What is the millionth lexicographic permutation of the digits 0, 1, 2, 3, 4, 5, 6, 7, 8 and 9?
 
-Answer : 2783915460
+Answer :
 */
 
 /*
@@ -59,20 +59,24 @@ int factorial(int n)
     return (n == 1 || n == 0) ? 1 : n * factorial(n - 1);
 }
 
+void removeByValue( vector<int> v , int value){
+	v.erase(remove(v.begin(), v.end(), value), v.end()); 
+}
 
 int main()
 {
 	vector<int> arr = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 	int n = arr.size();
-	int remain = 1000000;
+	int remain = 1000000 - 1;
 	
 	vector<int> new_arr = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-	int i = 1;
-	while(remain != 0){
+	
+	
+	for(int i = 1; i<=n; i++){
 		int j = remain / factorial(n-i);
 		remain = remain % factorial(n-i);
 		new_arr[i-1] = arr[j];
-		i++;
+		remove(arr.begin(), arr.end(), arr[j]);
 	}
 	
 	

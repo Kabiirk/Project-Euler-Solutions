@@ -9,7 +9,6 @@ Answer : 6857
 
 /*
 TIPS:
-
 Naive Approach : The approach is simple, just factorise the 
 given number by dividing it with the divisor of a number and 
 keep updating the maximum prime factor. Complexity : O(sqrt(n))
@@ -20,6 +19,7 @@ Even Better : Sieve of Atkin (slightly faster than Sieve of Eratosthenes)
 */
 
 #include <bits/stdc++.h>
+
 using namespace std;
 
 int SieveOfEratosthenes(int x,long long signed int n)

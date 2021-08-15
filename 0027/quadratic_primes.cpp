@@ -24,57 +24,77 @@ Find the product of the coefficients, a and b, for the quadratic expression
 that produces the maximum number of primes for consecutive values of n ,
 starting with n = 0.
 
-Answer : 
+Answer : -59231
 */
 
 /*
 TIPS:
+1) Brute force (done here), 0.539 seconds , fast enough
 
+2) Shrinking solution space
+The quadratic formula has to provide us with primes all
+the way from n= 0. What that means is that at n = 0
+
+n^2 + an + b  = b
+
+And thus b has to be a prime. That limits b from 2001
+possibilities to 336. Or a factor 6 reduction in size.
+
+For n = 1 we have that
+
+n^2 + an + b  = 1 + a + b
+
+We know that all primes except for 2 are odd. That means
+if 1 + a + b has to be odd, a has to be odd as well so
+the formula to provide a prime for n = 1.  If b = 2,
+then a has to be even.
+
+That cuts the possibilities of a by 50%. So we have
+limited the total solution space by around a factor 12.
+ref : https://www.mathblog.dk/project-euler-27-quadratic-formula-primes-consecutive-values/
 */
 
-#include <bits/stdc++.h>
-#include <vector>
+#include <iostream>
 
 using namespace std;
 
-void SieveOfEratosthenes(int n)
-{
-    // Create a boolean array
-    // "prime[0..n]" and initialize
-    // all entries it as true.
-    // A value in prime[i] will
-    // finally be false if i is
-    // Not a prime, else true.
-    bool prime[n + 1];
-    memset(prime, true, sizeof(prime));
- 
-    for (int p = 2; p * p <= n; p++)
-    {
-        // If prime[p] is not changed,
-        // then it is a prime
-        if (prime[p] == true)
-        {
-            // Update all multiples
-            // of p greater than or
-            // equal to the square of it
-            // numbers which are multiple
-            // of p and are less than p^2
-            // are already been marked.
-            for (int i = p * p; i <= n; i += p)
-                prime[i] = false;
-        }
-    }
- 
-    // Print all prime numbers
-    for (int p = 2; p <= n; p++)
-        if (prime[p])
-            cout << p << " ";
+bool isPrime(int n){
+	if(n<=1){
+		return false;
+	}
+	
+	for(int factor=2; factor*factor <= n; factor++){
+		if(n%factor == 0){
+			return false;
+		}
+	}
+	
+	return true;
 }
 
-int main()
-{
-	vec
-    SieveOfEratosthenes(87400);
-    
-    return 0;
+int main(){
+	int limit = 1000;
+	
+	int a_max = 0;
+	int b_max = 0;
+	unsigned int n_max = 0;
+	
+	for(int a = -limit; a <= +limit; a++){
+		for(int b = -limit; b <= +limit; b++){
+			unsigned int n = 0;
+			while(isPrime(n*n + a*n + b)){
+				n++;
+			}
+			
+			if(n>n_max){
+				a_max = a;
+			    b_max = b;
+			    n_max = n;
+			}
+		}
+	}
+	
+	cout<<a_max*b_max<<endl;
+	
+	return 0;
 }

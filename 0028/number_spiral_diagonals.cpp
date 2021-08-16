@@ -27,6 +27,8 @@ TIPS:
 
 using namespace std;
 
+int halfDiagonalSum(int first_term, int )
+
 int main()
 {
     cout<<"Hello Euler !"<<endl;

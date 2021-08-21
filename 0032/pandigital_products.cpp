@@ -25,6 +25,10 @@ TIPS:
 
 using namespace std;
 
+int panDigitalProduct(int a){
+    return 0;
+}
+
 int main()
 {
    cout<<"Hello Euler !"<<endl;

@@ -51,14 +51,16 @@ bool isPrime(int n)
 }
 
 bool isCircularPrime(unsigned int num){
+    // because multiples of 10 cause
+    // an infinite loop during rotation
+    if(num%10 == 0){
+        return false;
+    }
+
     bool circ_prime = true;
     unsigned int shift = 1;
     while (num > shift * 10)
       shift *= 10;
-
-    if(num%10 == 0){
-        return false;
-    }
 
     auto rotated = num;
     do
@@ -85,7 +87,7 @@ int main()
     //unsigned int arr[limit];
     unsigned int circular_primes_count = 0;
 
-    for(unsigned int i=10; i<limit; i++){
+    for(unsigned int i=2; i<limit; i++){
         if(isCircularPrime(i)){
             circular_primes_count += 1;
         }

@@ -1,5 +1,4 @@
 /*
-Problem 36
 Problem 37
 The number 3797 has an interesting property. Being prime itself, 
 it is possible to continuously remove digits from left to right,
@@ -93,7 +92,7 @@ bool allLeftTruncatePrimes(int n, vector<bool> prime_list){
 
 int main()
 {
-    vector<bool> a = sieveEro(1000000); // find a better way to do this, usuallynot a good practice to create a vector having a million values
+    vector<bool> a = sieveEro(1000000); // find a better way to do this, usually not a good practice to create a vector having a million values
     int truncatable_prime_count=0;
     int truncatable_prime_sum=0;
     int i = 10;

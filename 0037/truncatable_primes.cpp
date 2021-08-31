@@ -40,9 +40,10 @@ vector<bool> sieveEro(int n){
 
 bool allRightTruncatePrimes(int n, vector<bool> prime_list){
     bool final = true;
-    while(n>0 && final){
+    while(n>10){
         n = n/10;
         final = final && prime_list[n];
+        //cout<<n<<","<<final<<">";
     }
     return final;
 }
@@ -58,9 +59,11 @@ int largestPowerTen(int n){
 
 bool allLeftTruncatePrimes(int n, vector<bool> prime_list){
     bool final = true;
-    int factor = largestPowerTen(n);
-    while(n>0 && final){
+    int factor = largestPowerTen(n)/10;
+    while(n>10){
         n = n%factor;
+        final = final && prime_list[n];
+        //cout<<n<<","<<final<<">";
         factor = factor/10;
     }
     return final;
@@ -68,27 +71,29 @@ bool allLeftTruncatePrimes(int n, vector<bool> prime_list){
 
 int main()
 {
-    vector<bool> a = sieveEro(100);
+    vector<bool> a = sieveEro(100000);
     int limit = 1000;
     int truncatable_prime_count=0;
     int truncatable_prime_sum=0;
     int i = 10;
+    int num = 3797;
 
-    while(truncatable_prime_count!=11){
+
+    // if(1){
+    //     cout<<allRightTruncatePrimes(num,a)<< endl;
+    //     cout<< allLeftTruncatePrimes(num,a) <<endl;
+    // }
+
+
+    while(11 > truncatable_prime_count){
         if(a[i]){
-            if(allLeftTruncatePrimes(i, a) && allRightTruncatePrimes(i, a)){
-                truncatable_prime_sum+=i;
-                truncatable_prime_count+=1;
+            if(allRightTruncatePrimes(i,a) && allLeftTruncatePrimes(i,a)){
+                cout<<i<<endl;
+                truncatable_prime_count += 1;
             }
         }
-        i++;
+        i = i+1;
     }
 
-
-    // for(int i = 0; i<a.size(); i++){
-    //     if(a[i]){
-    //         cout<<i<<endl;
-    //     }
-    // }
     return 0;
 }

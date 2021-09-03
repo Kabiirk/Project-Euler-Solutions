@@ -56,7 +56,6 @@ int main()
         a+=to_string(i);
     }
 
-    //int final_product = a[9];
     int a_1 = a[1] - '0';
     int a_10 = a[10]  - '0';
     int a_100 = a[100]  - '0';

@@ -13,26 +13,87 @@ shall call the word a triangle word.
 Using words.txt (right click and 'Save Link/Target As...'), a 16K text file containing
 nearly two-thousand common English words, how many are triangle words?
 
-Answer : 
+Answer : 162
 */
 
 /*
 TIPS:
-Naive Approach : The approach is simple, just factorise the 
-given number by dividing it with the divisor of a number and 
-keep updating the maximum prime factor. Complexity : O(sqrt(n))
+If n is the mth triangular number, then n = m*(m+1)/2.
 
-Better Alternative : Sieve of Eratosthenes. Complexity : O(n*log2*log2(n))
+Solving for m using the quadratic formula:
+m = (sqrt(8n+1) - 1) / 2
 
-Even Better : Sieve of Atkin (slightly faster than Sieve of Eratosthenes)
+So n is triangular if and only if 8n+1 (modified_n) is a perfect square.
+
+Ref : https://stackoverflow.com/questions/2913215/fastest-method-to-define-whether-a-number-is-a-triangular-number
+Ref 2 : https://stackoverflow.com/questions/295579/fastest-way-to-determine-if-an-integers-square-root-is-an-integer
 */
 
 #include <iostream>
+#include <fstream>
+#include <string> // for getline()
+#include <math.h> // for ceil() & floor()
 
 using namespace std;
 
+int nameSum(string name){
+    int sum=0;
+    for(int j=0; j<name.length(); j++){
+        sum += name[j] - 'A' + 1;
+        // In ASCII, 'A' -> 65
+        // for e.g. we want value of 'C'
+        // now ASCII value of 'C' is 67,
+        // but we want it's alphabetical value (3).
+        // so what we did was :
+        // [LETTER] - 'A' + 1 = Alphabetical value of LETTER
+        // here  67 - 65 + 1 = 3 (for our 'C' example)
+        // i.e. 'C' - 'A' + 1 = 3
+        //      'D' - 'A' + 1 = 4
+        //      'I' - 'A' + 1 = 9 and so on..
+    }
+    
+    return sum;	
+}
+
+// essentially checking if a number is perfect square
+bool isTriangleNum(int n){
+
+    int modified_n = 8*n + 1;
+
+    // check if n is perfect square
+    bool is_perf_square;
+    if (ceil((double)sqrt(modified_n)) == floor((double)sqrt(modified_n))) {
+        is_perf_square = true;
+    }
+    else {
+        is_perf_square = false;
+    }
+
+    return is_perf_square;
+}
+
 int main()
 {
-    cout<<"Hello Euler !!"<<endl;
+    fstream newfile;
+    int name_sum, triangle_word_count = 0;
+    
+    newfile.open("p042_words.txt", ios::in);
+
+    if(newfile.is_open()){
+        string str;
+
+        while(getline(newfile, str, ',')){
+            string sub_str = str.substr(1,str.length()-2);//remove double-quotes
+            name_sum = nameSum(sub_str);
+
+            if(isTriangleNum(name_sum)){
+                triangle_word_count += 1;
+            }
+        }
+    newfile.close();
+    }
+
+    cout<<triangle_word_count<<endl;
+
     return 0;
 }

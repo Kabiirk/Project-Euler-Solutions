@@ -18,58 +18,80 @@ Answer : 4179871
 
 /*
 TIPS:
+trick here is we already know that all numbers above 28123
+can be written as a sum of two abundant numbers and we
+also know that the list is sorted ascendantly.
+So as soon as we reach a sum which is above 28123,
+we can break out of the inner loop.
 
+After generating a list of all abundant primes, we iterate through
+the list twice to find which the numbers we require and add them.
+
+Note : A better sumOfDivisors in problem 23 but I used the
+simpler one as it was easy to understand and fast enough for now.
 */
 
-#include <array>
 #include <iostream>
 #include <vector>
+#include <cmath>
 
-long sum_of_dividends(int n)
+using namespace std;
+
+int sumOfDivisors(int num)
 {
-    long sum{1};
-    int i = 2;
-    for (int j = n; i < j; ++i)
+    int result = 0;
+    if(num == 1)
+      return result;
+
+    for (int i=2; i<=sqrt(num); i++)
     {
-        if ( n % i == 0 )
+        if (num%i==0)
         {
-            sum += i;
-            j = n / i;
-            if (i == j)
-               break;
-            sum += j;
+            if (i==(num/i))
+                result += i;
+            else
+                result += (i + num/i);
         }
     }
-    return sum;
+ 
+    // Add 1 to the result as 1 is also a divisor
+    return (result + 1);
 }
 
-int main() 
-{
-    std::vector<int> abundants;
-    abundants.reserve(7000);
-    constexpr int max_value = 28123;
-    for (int i{1}; i <= max_value; ++i)
-    {
-        if (sum_of_dividends(i) > i)
-            abundants.push_back(i);
+int main(){
+    const int limit = 28123;
+    vector<int> abundant;
+    bool are_abundant[limit+1];
+    fill_n(are_abundant, limit+1, false); // set every value for array as false
+
+    // Find all abundant numbers
+    for(int i = 2; i<=limit; i++){
+        if(sumOfDivisors(i) > i){
+            abundant.push_back(i);
+        }
     }
 
-    std::array<bool, max_value> are_sums{};
-
-    for (unsigned i{}; i < abundants.size(); ++i)
-    {
-        for (unsigned j{i}; ; ++j)
-        {
-            long k = abundants[i] + abundants[j];
-            if (k >= max_value)
+    // Make all the sums of two abundant numbers
+    for(int i=0; i<abundant.size(); i++){
+        for(int j = i; j<abundant.size(); j++){
+            if(abundant[i] + abundant[j] <= limit){
+                are_abundant[abundant[i] + abundant[j]] = true;
+            }
+            else{
                 break;
-            are_sums[k] = true;
-        } 
+            }
+        }
     }
-    long sum{};
-    for (int i{}; i < max_value; ++i)
-        if (!are_sums[i])
-            sum += i;
 
-    std::cout << sum << '\n';
+    // final sum
+    long sum = 0;
+    for(int k = 1; k<=limit; k++){
+        if(!are_abundant[k]){
+            sum+=k;
+        }
+    }
+
+    cout<<sum<<endl;
+
+    return 0;
 }

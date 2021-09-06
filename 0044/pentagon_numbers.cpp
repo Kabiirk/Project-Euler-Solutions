@@ -11,20 +11,52 @@ difference, 70 − 22 = 48, is not pentagonal.
 Find the pair of pentagonal numbers, Pj and Pk, for which their sum
 and difference are pentagonal and D = |Pk − Pj| is minimised; what is the value of D?
 
-Answer : 
+Answer : 5482660
 */
 
 /*
 TIPS:
+Check every number untill the 
+given condition is satisfied.
 
+inverse function to check if number 'x' is pentagon :
+(sqrt(24x + 1) + 1) / 6
 */
 
 #include <iostream>
+#include <cmath>
+
+typedef unsigned long long ULL;
 
 using namespace std;
 
+bool isPentagonal(ULL x){
+    ULL n = (1 + sqrt(24*x + 1)) / 6;
+    auto p_n = n* (3 * n - 1)/2; // p_n is the nth pentagonal number
+
+    return p_n == x;
+}
+
 int main()
 {
-    cout<<"Hello Euler !!"<<endl;
+    int result = 0;
+    bool notFound = true;
+    int i = 1;
+     
+    while (notFound) {
+        i++;
+        int n = i * (3 * i - 1) / 2;
+     
+        for (int j = i-1; j > 0; j--) {
+            int m = j * (3 * j - 1) / 2;
+            if (isPentagonal(n - m) && isPentagonal(n + m)) {
+                result = n-m;
+                notFound = false;
+                break;
+            }
+        }
+    }
+    cout<<result<<endl;
+
     return 0;
 }

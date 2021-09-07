@@ -9,21 +9,72 @@ It can be verified that T285 = P165 = H143 = 40755.
 
 Find the next triangle number that is also pentagonal and hexagonal.
 
-Answer : 
+Answer : 1533776805
 */
 
 /*
 TIPS:
+TRIANGULAR : 1, 3, 6, 10, 15, 21, 28, 36, 45, 55....
+PENTAGONAL : 1, 5, 12, 22, 35, 51, 70, 92, 117, 145....
+HEXAGONAL  : 1, 6, 15, 28, 45, 66, 91, 120, 153, 190....
 
+From the above series, we can notice that
+TRIANGULAR : 1, 3, 6, 10, 15, 21, 28, 36, 45, 55....
+             ^     ^      ^       ^       ^
+and 
+HEXAGONAL  : 1, 6, 15, 28, 45, 66, 91, 120, 153, 190....
+             ^  ^  ^   ^
+
+1st Triangular no. = 1st Hexagonal no. (1st 'Odd' Triangular no.)
+3rd Triangular no. = 2nd Hexagonal no. (2nd 'Odd' Triangular no.)
+5th Triangular no. = 3rd Hexagonal no. (3rd 'Odd' Triangular no.)
+7th Triangular no. = 4th Hexagonal no. (4th 'Odd' Triangular no.)
+
+so we know that every nth odd Triangular no. is nth Hexagonal no. i.e.
+Tn = Hn (n = 1,3,5,7...)
+
+so all Hexagonal numbers are triangular numbers
+
+To reduce the amount of numbers we check only wether only the
+Generated Hexagonal Nos. are pentagonal or not.
+
+We also start from 143, since the problem wants us to find
+the NEXT Triangle number that is also Pentagonal and Hexagonals 
 */
 
 #include <iostream>
+#include <cmath> // for sqrt()
+
+typedef unsigned long long ULL; 
 
 using namespace std;
 
+ULL hexagonalNumGen(ULL n){
+    return n*((2*n) - 1);
+}
+
+bool isPentagonal(ULL pn){
+    ULL n_calc = ( 1 + sqrt( (24*pn) + 1 ) )/6;
+    auto pn_calc = ( n_calc * ( (3*n_calc) - 1 ) )/2;
+    
+    return pn == pn_calc;
+}
+
 int main()
 {
-    cout<<"Hello Euler !!"<<endl;
+    int poly_num = 0;
+    ULL i = 143;
+    ULL next_poly_num;
+
+    while(poly_num != 1){ // while(true) didn't vibe with me + potential infinite loop so no :)
+        i++;
+        next_poly_num = hexagonalNumGen(i);
+        if(isPentagonal(next_poly_num)){
+            poly_num++;
+        }
+    }
+
+    cout<<next_poly_num<<endl;
 
     return 0;
 }

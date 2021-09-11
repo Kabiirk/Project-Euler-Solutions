@@ -2,6 +2,6 @@
 # bash automate_push.sh "Some commit message"
 
 git add .
-git commit -m "'$1'"
+git commit -m "$1"
 git push
 echo "Changes Pushed Successfully !!"

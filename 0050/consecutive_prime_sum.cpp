@@ -17,10 +17,10 @@ Answer : 997651 (543 terms)
 
 /*
 TIPS:
-Brute Forse iteration by using something similar to sliding window
+Brute Force iteration by using something similar to sliding window.
 
 CAUTION : 
-(This caused me some headache apart from figuring out how to iterate)
+(This caused me some headache, apart from figuring out how to iterate)
 The problem asks for sums of CONSECUTIVE primes, which need not necessarily
 begin with the first prime. The fact that the shown example :
 
@@ -85,7 +85,7 @@ int main(){
       s -= prime_num[j--];
     }
 
-    while ( s < 1000000 && j < prime_num.size() ) {
+    while ( s < limit && j < prime_num.size() ) {
       int l = j - i + 1;
       if (l > num_terms && prime_bool[s]) {
         num_terms = l;

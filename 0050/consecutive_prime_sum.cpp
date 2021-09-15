@@ -66,24 +66,19 @@ bool isPrime(int n)
 vector<int> slidingWindow(int lmt, vector<bool> prime_bool){
   vector<int> sum_window;
   int i = 0;
-  int sum = 0;
+  int sum;
   int i_offset = 0;
   bool keep_going = true;
 
   while(keep_going){
-    while(sum<lmt){
-      sum+=prime_num[i];
-    }
-    if(isPrime(sum)){
-      sum_window.push_back(sum);
-      cout<<i<<" "<<sum<<" "<<i_offset<<endl;
-    }
-    i_offset++;
-    i = i_offset;
     sum = 0;
-    if(i_offset > 166){
-      keep_going = false;
+    while(sum<lmt){
+      i = i_offset;
+      sum+=prime_num[i];
+      i++;
     }
+    cout<<sum<<" "<<i<<endl;
+    i_offset++;
   }
 
   return sum_window;
@@ -96,33 +91,9 @@ int main(){
   int n = prime_num.size();
   vector<int> sum_window = slidingWindow(100, prime_bool);
 
-  // for(int i = 0; i<sum_window.size(); i++){
-  //   cout<<sum_window[i]<<" , ";
+  // for(int i = 0; i<sum_window.size();i++){
+  //   cout<<sum_window[i]<<endl;
   // }
-
-  //cout<<n<<endl;
-
-  // int max_run = 0;
-  // prime_sum[0] = 0;
-  // for(int i = 1; i<n; i++){
-  //   prime_sum[i] = prime_sum[i-1] + prime_num[i-1];
-  //   if(prime_sum[i]>limit){
-  //     max_run = i-1;
-  //   }
-  // }
-
-  // for(int j = max_run; j>0; j--){
-  //   for(int k = 0;;k++){
-  //     long long next = prime_sum[k+j] - prime_sum[k];
-
-  //     if(next > limit){
-  //       break;
-  //     }
-
-  //     if(next%2 && !prime_bool[(next-1)/2]){
-  //       cout<<next<<endl;
-  //       return 0;
-  //     }
-  //   }
-  // }
+  
+  
 }

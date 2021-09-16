@@ -18,16 +18,16 @@ Better Alternative : Sieve of Eratosthenes. Complexity : O(n*log2*log2(n))
 Even Better : Sieve of Atkin (slightly faster than Sieve of Eratosthenes)
 */
 
-#include <bits/stdc++.h>
+#include <vector>
+#include <iostream>
 
 using namespace std;
 
 int SieveOfEratosthenes(int x,long long signed int n)
 {
-	//use sieve upto square root of 
-	// required number
-    bool prime[x];                                 
-    memset(prime, true, sizeof(prime));
+    //use sieve upto square root of 
+    // required number
+    vector<bool> prime(x, true);                                 
  
     for (long long signed int p = 2; p * p <= x; p++)    
     {
@@ -49,10 +49,13 @@ int SieveOfEratosthenes(int x,long long signed int n)
 
 int main()
 {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+    // for competitiva coding
+    // ios_base::sync_with_stdio(false);
+    // cin.tie(NULL);
     // 775146 is sqrt of 600851475143
-    cout<<SieveOfEratosthenes(775146,600851475143);//Return the answer
+    int res = SieveOfEratosthenes(775146,600851475143);
+
+    cout<<res<<endl;//Return the answer
 
     // long long signed int n;cin>>n;   for value of n
    //cout<<SieveOfEratosthenes(sqrt(n),n);

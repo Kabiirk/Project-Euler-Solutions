@@ -26,9 +26,34 @@ TIPS:
 
 using namespace std;
 
+vector<int> prime_num;
+
+vector<bool> sieveOfEratosthenes(int n)
+{
+    vector<bool> prime(n, true);
+ 
+    for (int p = 2; p * p <= n; p++)
+    {
+        if (prime[p] == true)
+        {
+            for (int i = p * p; i <= n; i += p)
+                prime[i] = false;
+        }
+    }
+
+    for(int j = 2; j<=n; j++){
+        if(prime[j]){
+            prime_num.push_back(j);
+        }
+    }
+
+    return prime;
+}
+
 int main()
 {
-    cout<<"Hello Euler !!"<<endl;
+    int limit = 1000000;
+    vector<bool> prime_bool = sieveOfEratosthenes(limit);
 
     return 0;
 }

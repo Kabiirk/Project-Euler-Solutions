@@ -21,13 +21,12 @@ but
 LCM(a,b,c) != (a*b*c)/GCD(a,b,c)
 
 Iterate over all the elements of the array i.e. from i = 1 to i = n-1 
-At the ith iteration ans = LCM(arr[0], arr[1], …….., arr[i-1]). 
-This can be done easily as LCM(arr[0], arr[1], …., arr[i]) = LCM(ans, arr[i]).
-Thus at i’th iteration we just have to do ans = LCM(ans, arr[i]) = ans x arr[i] / gcd(ans, arr[i]) 
+At the ith iteration ans = LCM(arr[0], arr[1], ..., arr[i-1]). 
+This can be done easily as LCM(arr[0], arr[1], ..., arr[i]) = LCM(ans, arr[i]).
+Thus at 'i'th iteration we just have to do ans = LCM(ans, arr[i]) = ans x arr[i] / gcd(ans, arr[i]) 
 */
 
 #include<iostream>
-#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -50,6 +49,7 @@ long long int findlcm(int arr[], int n){
 int main(){
 	int arr[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
 	int n = sizeof(arr)/sizeof(arr[0]);
+	
 	cout<<findlcm(arr, n)<<endl;
 
 	return 0;

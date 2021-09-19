@@ -13,13 +13,14 @@ Here we use a modified Sieve of Eratosthenes where instead of outputting primes,
 it outputs a single value which is their sum
 */
 
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+
 using namespace std;
 
-long long int ModifiedSieveOfEratosthenes(int n)
+long long int ModifiedSieveOfEratosthenes(const int n)
 {
-    bool prime[n + 1];
-    memset(prime, true, sizeof(prime));
+    vector<bool> prime(n + 1, true);
  
     for (int p = 2; p * p <= n; p++)
     {
@@ -43,7 +44,7 @@ long long int ModifiedSieveOfEratosthenes(int n)
 
 int main()
 {
-	int n = 2000000;
+	const int n = 2000000;
 	long long int sum_of_primes = ModifiedSieveOfEratosthenes(n);
 	cout<<sum_of_primes<<endl;
 	

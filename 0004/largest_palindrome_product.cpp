@@ -1,7 +1,7 @@
 /*
 Problem 4
 A palindromic number reads the same both ways. The largest palindrome made
-from the product of two 2-digit numbers is 9009 = 91 × 99.
+from the product of two 2-digit numbers is 9009 = 91 ï¿½ 99.
 
 Find the largest palindrome made from the product of two 3-digit numbers.
 
@@ -17,12 +17,12 @@ TIPS:
 999*999 = 998001 (6 digits)
 */
 
-#include <bits/stdc++.h>
+#include <iostream>
+#include <cmath>
+
 using namespace std;
 
-
-
-int larrgestPalindrome(int n)
+int largestPalindrome(int n)
 {
     int upper_limit = pow(10,n) - 1;
 
@@ -57,8 +57,8 @@ int larrgestPalindrome(int n)
             // update new product if exist
             // and if greater than previous one
             if (product == reverse && product > max_product){
-            	max_product = product;
-			}
+                max_product = product;
+            }
         }
     }
     return max_product;
@@ -66,12 +66,10 @@ int larrgestPalindrome(int n)
 
 
 int main()
-{
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    
+{   
     int n = 3;
-    cout << larrgestPalindrome(n);
-    
+
+    cout<<largestPalindrome(n)<<endl;
+
     return 0;
 }

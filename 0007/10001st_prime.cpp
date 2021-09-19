@@ -16,8 +16,9 @@ Store all primes in a vector.
 For a given number N, return the element at (N-1)th index in a vector.
 */
 
-#include<iostream>
-#include <bits/stdc++.h>
+#include <iostream>
+#include <cstring>
+#include <vector>
 
 using namespace std;
 

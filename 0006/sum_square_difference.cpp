@@ -30,7 +30,6 @@ as per question to get our answer, we do :
 */
 
 #include<iostream>
-#include <bits/stdc++.h>
 
 using namespace std;
 

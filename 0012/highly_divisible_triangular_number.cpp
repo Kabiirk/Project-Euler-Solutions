@@ -47,7 +47,7 @@ number which has more than N divisors is X, then the time complexity will
 be O(X * sqrt(X)) as pre-processing of primes is not possible in case of 
 larger triangular numbers.
 
-An efficient solution : To use the fact that the triangular number’s 
+An efficient solution : To use the fact that the triangular numberï¿½s 
 formula is x*(x+1)/2. The property that we will use is that k and k+1 are 
 coprimes. We know that two co-primes have a distinct set of prime factors.
 There will be two cases when X is even and odd. 
@@ -58,7 +58,8 @@ When X is odd, then X and (X+1)/2 will be considered as two numbers whose prime 
 Hence the problem has been reduced to the just finding out prime factorization of smaller numbers, which reduces
 */
 
-#include <bits/stdc++.h>
+#include <iostream>
+#include <cstring>
 
 using namespace std;
 

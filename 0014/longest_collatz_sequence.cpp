@@ -24,7 +24,6 @@ at the cost of higher memory usage.
 (we can Cache existing chain paths)
 */
 
-#include <bits/stdc++.h>
 #include <iostream>
 
 using namespace std;

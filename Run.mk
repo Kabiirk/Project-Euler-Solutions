@@ -23,8 +23,8 @@ CPPFILENAME = $(wildcard $(DIR)/*.cpp)
 EXEFILENAME = $(basename $(notdir $(CPPFILENAME)))
 
 all:
-	if [ -a $(DIR)/$(EXEFILENAME).exe ]; \
-	then echo Found; \
-	else echo not Found; \
-	fi;
+	# if [ -a $(DIR)/$(EXEFILENAME).exe ]; \
+	# then echo Found; \
+	# else echo not Found; \
+	# fi;
 	@$(DIR)/$(EXEFILENAME)

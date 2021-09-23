@@ -7,7 +7,7 @@ value by its alphabetical position in the list to obtain a name score.
 
 For example, when the list is sorted into alphabetical order, COLIN, which is
 worth 3 + 15 + 12 + 9 + 14 = 53, is the 938th name in the list.
-So, COLIN would obtain a score of 938 × 53 = 49714.
+So, COLIN would obtain a score of 938 ï¿½ 53 = 49714.
 
 What is the total of all the name scores in the file?
 
@@ -27,10 +27,16 @@ For alternate approaches using other algorithms
 Ref. : https://www.mathblog.dk/project-euler-22-what-is-the-total-of-all-the-name-scores-in-the-file-of-first-names/
 */
 
-#include <bits/stdc++.h>
+// NOTE : Since this has a p022_names.txt file, executing from root with Run.mk
+//        doesn't yeild result, has to be executed from 0022/ directory itself.
+//        (i.e. type 'name_scores' in terminal and press enter, executed name_scores.exe)
+//
+//        Compiling works fine. so it can be compiled from root. But run while in 0022/ directory
+
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <algorithm> // for sort()
 #include <vector>
 
 using namespace std;

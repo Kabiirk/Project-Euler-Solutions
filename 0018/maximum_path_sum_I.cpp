@@ -92,10 +92,11 @@ Making the second iteration of the algorithm makes the triangle look
 20 19
 
 And if we run the algorithm once more, the triangle
-collapses to one number – 23 – which is the answer to the question.
+collapses to one number - 23, which is the answer to the question.
 */
 
-#include <bits/stdc++.h>
+#include <iostream>
+#include <algorithm> // for max()
 
 using namespace std;
 

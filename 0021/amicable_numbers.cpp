@@ -29,12 +29,17 @@ Finding the divisors of a number can be done very efficiently using prime factor
 ref.: https://mathworld.wolfram.com/DivisorFunction.html
 */
 
-#include <bits/stdc++.h>
+//#include <bits/stdc++.h>
+#include <iostream>
 #include <vector>
 #include <iterator>
 #include <map>
+#include <cmath> // for sqrt()
+#include <cstring> // for memset()
 
 using namespace std;
+
+const int LIMIT=10000;
 
 // Brute Force approach & Helper functions
 int sumOfDivisors(int n){
@@ -75,7 +80,7 @@ int bruteForce(int limit){
 vector<int> SieveOfEratosthenes(int n)
 {
 	vector<int> prime_list;
-    bool prime[n + 1];
+    bool prime[LIMIT+1];
     memset(prime, true, sizeof(prime));
  
     for (int p = 2; p * p <= n; p++)
@@ -153,8 +158,8 @@ int primeFactorization(int limit){
 
 int main()
 {
-	cout<<bruteForce(10000)<<endl;
-	cout<<primeFactorization(10000)<<endl;
+	cout<<bruteForce(LIMIT)<<endl;
+	cout<<primeFactorization(LIMIT)<<endl;
 
     return 0;
 }

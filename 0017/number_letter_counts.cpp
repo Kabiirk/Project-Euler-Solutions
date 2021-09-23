@@ -38,10 +38,11 @@ numbers 1-999 and 1000 (One Thousand) is still left.
 It has 11 letters excluding the space.
 */
 
-#include <bits/stdc++.h>
+//#include <bits/stdc++.h>
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm> // for remove()
 
 using namespace std;
 

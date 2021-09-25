@@ -1,4 +1,4 @@
-# Copies 0003/ files for boilerplate creation & deletes 0003/file_name.exe
+# Makes new file_name.cpp with given content
 # Run the srcipt with commit message as command line argument :
 # bash automate_copy_rename.sh XXXX file_name
 #
@@ -20,9 +20,30 @@ if [ -d  "$1" ]
     exit 1
 fi
 
-cp -R 0003/ $1/
-rm $1/*.exe
-mv $1/*.cpp $1/$2.cpp
+mkdir $1/
+
+# File creation
+echo "/*
+Problem x
+
+Answer : 
+*/
+
+/*
+TIPS:
+
+*/
+
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    cout<<\"Hello Euler !!\"<<endl;
+
+    return 0;
+}" > $1/$2.cpp
+
 cd ..
 
 echo "Boilerlpate Directory created !!"

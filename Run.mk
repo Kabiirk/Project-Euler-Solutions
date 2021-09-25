@@ -1,8 +1,8 @@
 # !!!!!!!!!!!!!!!!!! ATTENTION !!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #
 # RUN THIS AFTER RUNNING Compile.mk
-# SINCE THIS REQUIRES THE .exe file TO BE CREATED
-# FIRST OTHERWISE IT WILL SHOW THIS ERROR :
+# SINCE THIS REQUIRES THE .exe file TO BE CREATED FIRST
+# OTHERWISE IT WILL SHOW THIS ERROR :
 #
 # process_begin: CreateProcess(NULL, 0069/file1, ...) failed.
 # make (e=2): The system cannot find the file specified.
@@ -23,8 +23,4 @@ CPPFILENAME = $(wildcard $(DIR)/*.cpp)
 EXEFILENAME = $(basename $(notdir $(CPPFILENAME)))
 
 all:
-	# if [ -a $(DIR)/$(EXEFILENAME).exe ]; \
-	# then echo Found; \
-	# else echo not Found; \
-	# fi;
 	@$(DIR)/$(EXEFILENAME)

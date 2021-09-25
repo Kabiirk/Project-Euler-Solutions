@@ -136,7 +136,7 @@ ref.: https://euler.stephan-brumme.com/28/
 https://www.mathblog.dk/project-euler-28-sum-diagonals-spiral/
 */
 
-#include <bits/stdc++.h>
+#include <iostream>
 
 using namespace std;
 

@@ -62,7 +62,9 @@ as 1/7 = 0.142857..
 and so on ...
 */
 
-#include <bits/stdc++.h>
+#include <iostream>
+#include <map> // for map<int, int>
+#include <string> // for to_string()
 
 using namespace std;
 

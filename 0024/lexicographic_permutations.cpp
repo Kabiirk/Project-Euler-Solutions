@@ -23,7 +23,7 @@ in the third interval, and thus must start with a 2.
 So the 725761st permutation is 2013456789. So now we miss 274239 permutation to reach the goal,
 so we can start figuring out the second number.
 
-Since 8! = 40320, we get get that changing the number six times we reach the permutations from 241920 – 282240.
+Since 8! = 40320, we get get that changing the number six times we reach the permutations from 241920 ï¿½ 282240.
 So we need to take the 7th number in the list. Since the list excludes 2 we end up with 7 as the second digit
 of the millionth permutation. We can then continue all the way through until we got all digits.
 
@@ -61,7 +61,6 @@ _  _  _  _  _  _  _  _  _  _                       0
 2  7  8  3  9  1  5  4  6  0               1,000,000th Permutation
 */
 
-#include <bits/stdc++.h>
 #include <iostream>
 #include <vector>
 #include <algorithm>

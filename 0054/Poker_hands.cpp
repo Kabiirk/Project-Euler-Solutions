@@ -57,27 +57,67 @@ Answer :
 
 /*
 TIPS:
+Awesome article about splitting strings
+Ref. : https://www.fluentcpp.com/2017/04/21/how-to-split-a-string-in-c/
+
+Some more info on splitting strings
+Ref. : https://stackoverflow.com/questions/53849/how-do-i-tokenize-a-string-in-c
 
 */
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
+// Split String based on delimiter
+vector<string> split(const string& s, char delimiter)
+{
+   vector<string> tokens;
+   string token;
+   istringstream tokenStream(s);
+   while (getline(tokenStream, token, delimiter))
+   {
+      tokens.push_back(token);
+   }
+   return tokens;
+}
+
+bool compareHands(){
+        return true;
+}
+
+void printVector(vector<string> v){
+        cout<<"< ";
+        for(auto &itr : v){
+                cout<<itr<<" "; 
+        }
+        cout<<">"<<endl;
+}
+
 int main() {
-    fstream newfile;
+        string s = "AS KD 3D JD 8H 7C 8C 5C QD 6C";
+        cout<<s<<endl;
 
-    newfile.open("p054_poker.txt", ios::in);
+        vector<string> str = split(s, ' ');
+        printVector(str);
+        cout<<str[0]<<"->"<<str[1]<<"->"<<str[2]<<"->"<<str[3]<<"->"<<str[4]<<endl;
+        cout<<str[5]<<"->"<<str[6]<<"->"<<str[7]<<"->"<<str[8]<<"->"<<str[9]<<endl;
+//     fstream newfile;
 
-    if(newfile.is_open()){
-            string p1_p2_hands;
-            while(getline(newfile, p1_p2_hands)){
-                    cout<<p1_p2_hands<<endl;
-            }
-            newfile.close();
-    }
+//     newfile.open("p054_poker.txt", ios::in);
+
+//     if(newfile.is_open()){
+//             string p1_p2_hands;
+//             while(getline(newfile, p1_p2_hands)){
+//                     //cout<<p1_p2_hands<<endl;
+//                     vector<string> str = split(p1_p2_hands, ' ');
+//             }
+//             newfile.close();
+//     }
 
     return 0;
 }

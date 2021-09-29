@@ -57,6 +57,12 @@ Answer :
 
 /*
 TIPS:
+
+NOTE : Comparing both players hands can also be done while
+       reading line from p054_poker.txt but I have kept 
+       reading data from file and writing data from file
+       as separate operations.
+
 Awesome article about splitting strings
 Ref. : https://www.fluentcpp.com/2017/04/21/how-to-split-a-string-in-c/
 
@@ -73,6 +79,48 @@ Ref. : https://stackoverflow.com/questions/53849/how-do-i-tokenize-a-string-in-c
 
 using namespace std;
 
+int value(char str){
+    switch(str){
+        case '2':
+                return 2;
+        case '3':
+                return 3;
+        case '4':
+                return 4;
+        case '5':
+                return 5;
+        case '6':
+                return 6;
+        case '7':
+                return 7;
+        case '8':
+                return 8;
+        case '9':
+                return 9;
+        case '10':
+                return 10;
+        case 'J': // Jack
+                return 11;
+        case 'Q': // Queen
+                return 12;
+        case 'K': // King
+                return 13;
+        case 'A': // Ace
+                return 14;
+        case 'C': // Club
+                return 15;
+        case 'S': // Spade
+                return 16;
+        case 'H': // Heart
+                return 17;
+        case 'D': // Diamond
+                return 18;
+        }
+}
+
+// Checking Rank of Hand
+
+
 // Split String based on delimiter
 vector<string> split(const string& s, char delimiter)
 {
@@ -86,10 +134,7 @@ vector<string> split(const string& s, char delimiter)
    return tokens;
 }
 
-bool compareHands(){
-        return true;
-}
-
+// Utility function to print Vectors
 void printVector(vector<string> v){
         cout<<"< ";
         for(auto &itr : v){
@@ -98,26 +143,58 @@ void printVector(vector<string> v){
         cout<<">"<<endl;
 }
 
-int main() {
-        string s = "AS KD 3D JD 8H 7C 8C 5C QD 6C";
-        cout<<s<<endl;
+// Compares both hands to see if Player 1 won
+// returns true if Player 1 won 
+//         false if Player 1 lost (i.e. Player 2 won) 
+bool isP1Winner(vector<string> both_hands, vector<string> p1_hand, vector<string> p2_hand){
+    // 
+    p1_hand = {both_hands[0], both_hands[1], both_hands[2], both_hands[3], both_hands[4]};
+    p2_hand = {both_hands[5], both_hands[6], both_hands[7], both_hands[8], both_hands[9]};
 
-        vector<string> str = split(s, ' ');
-        printVector(str);
-        cout<<str[0]<<"->"<<str[1]<<"->"<<str[2]<<"->"<<str[3]<<"->"<<str[4]<<endl;
-        cout<<str[5]<<"->"<<str[6]<<"->"<<str[7]<<"->"<<str[8]<<"->"<<str[9]<<endl;
-//     fstream newfile;
+    printVector(p1_hand);
+    printVector(p2_hand);
+    return true;
+}
+
+int main() {
+    fstream newfile;
+    vector<vector<string>> all_hands;
+    vector<string> p1, p2;
+    int res;
 
 //     newfile.open("p054_poker.txt", ios::in);
 
+//     // Read from file and put into 2D Vector
 //     if(newfile.is_open()){
-//             string p1_p2_hands;
-//             while(getline(newfile, p1_p2_hands)){
-//                     //cout<<p1_p2_hands<<endl;
-//                     vector<string> str = split(p1_p2_hands, ' ');
+//         string p1_p2_hands;
+//         while(getline(newfile, p1_p2_hands)){
+//                 //cout<<p1_p2_hands<<endl;
+//                 vector<string> str = split(p1_p2_hands, ' ');
+//                 all_hands.push_back(str);
 //             }
 //             newfile.close();
 //     }
 
+//     int n = all_hands.size();
+//     cout<<n<<endl;
+//     for(int i = 0; i<n; i++){
+//         if(isP1Winner(all_hands[i], p1, p2)){
+//                 res++;
+//         }
+//     }
+
+//    cout<<res<<endl;
+
+    //Testing
+    vector<string> hands1 = split("5H 5C 6S 7S KD 2C 3S 8S 8D TD", ' ');
+    //  5H 5C 6S 7S KD      2C 3S 8S 8D TD         Player 2 Wins
+    //  Pair of Fives       Pair of Eights
+
+    vector<string> hands2 = split("2H 2D 4C 4D 4S 3C 3D 3S 9S 9D", ' ');
+    //  2H 2D 4C 4D 4S      3C 3D 3S 9S 9D         Player 1 Wins
+    //  Full House          Full House
+    //  With Three Fours    With Three Threes
+    bool a = isP1Winner(hands1, p1, p2);
+    bool b = isP1Winner(hands2, p1, p2);
     return 0;
 }

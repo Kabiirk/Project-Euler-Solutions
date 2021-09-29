@@ -61,11 +61,23 @@ TIPS:
 */
 
 #include <iostream>
+#include <fstream>
+#include <string>
 
 using namespace std;
 
 int main() {
-    cout<<"Hello Euler !!"<<endl;
+    fstream newfile;
+
+    newfile.open("p054_poker.txt", ios::in);
+
+    if(newfile.is_open()){
+            string p1_p2_hands;
+            while(getline(newfile, p1_p2_hands)){
+                    cout<<p1_p2_hands<<endl;
+            }
+            newfile.close();
+    }
 
     return 0;
 }

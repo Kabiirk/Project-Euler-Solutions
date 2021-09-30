@@ -173,25 +173,25 @@ int straightFlush(string hand){
                 if(check[i] && check[i+1] && check[i+2] && check[i+3] && check[i+4] == true
                 && (check[14]==5 || check[15]==5 || check[16]==5 || check[17]==5) ){
                         return i+4;
+                        }
         }
-        
         return false;
 }
 
 // Checking if hand is a Four of a Kind
 // Four cards of the same value
-int fourOfAkind(string hand){
+int fourOfAKind(string hand){
         vector<int> check(18, false);
-        for(int i = 0; i<10; 1+=2){
+        for(int i = 0; i<10; i+=2){
                 check[value(hand.at(i))]++;
         }
 
-        int n = check.size();
         for(int j = 0; j<13; j++){
                 if(check[j]==4){
-                        return i;
+                        return j;
                 }
         }
+        return false;
 }
 
 // Checking if hand is a Full House
@@ -199,35 +199,92 @@ int fourOfAkind(string hand){
 
 // Checking if hand is a Flush
 // All cards of the same suit
+bool flush(string hand){
+        vector<int> check(18, false);
+        
+        for(int i = 1; i<10; i+=2){
+                check[value(hand.at(i))]++;
+        }
+
+        
+}
 
 // Checking if hand is a Straight
 // All cards are consecutive values
 
 // Checking if hand is a Three of a Kind
 // Three cards of the same value
-int threeOfAkind(string hand){
+int threeOfAKind(string hand){
         vector<int> check(18, false);
-        for(int i = 0; i<10; 1+=2){
+        for(int i = 0; i<10; i+=2){
                 check[value(hand.at(i))]++;
         }
 
-        int n = check.size();
         for(int j = 0; j<13; j++){
                 if(check[j]==4){
-                        return i;
+                        return j;
                 }
         }
+        return false;
 }
 
 // Checking if hand is a Two Pairs
 // Two different pairs
+int twoPair(string hand){
+        vector<int> check(18, false);
+        int count = 0;
+        for(int i=0; i<10; i+=2){
+                check[value(hand.at(i))]++;
+        }
+
+        vector<int> pairs;
+        for(int i=0; i<=13; i++){
+                if(check[i] == 2){
+                        count++;
+                        pairs.push_back(i);
+                }
+                if(pairs.size() == 2){
+                        if(pairs[0] > pairs[1]){
+                                return pairs[0];
+                        }
+                        else{
+                                return pairs[1];
+                        }
+                }
+        }
+        return false;
+}
 
 // Checking if hand is a One Pair
 // Two cards of the same value
+int onePair(string hand){
+        vector<int> check(18, false);
+        for (int i=0;i<10;i+=2){
+                check[value(hand.at(i))]++;
+        }
+
+        for(int j=0; j<=13; j++){
+                if(check[j] == 2){
+                        return j;
+                }
+        }
+
+        return false;
+}
 
 // Checking if hand is a High Card
 // Highest value card
-
+int high(string str,int rank){
+    vector<int> max;
+    for (int i=0;i<9;i+=2){
+    if (value(str.at(i))==1)
+        {max.push_back(14);}
+    else
+        {max.push_back(value(str.at(i)));}
+    }
+    sort(max.begin(), max.end());
+    return max[max.size()-1-rank+1];
+}
 
 
 // Split String based on delimiter

@@ -57,6 +57,7 @@ Answer :
 
 /*
 TIPS:
+vector check = < A(Ace), 2, 3, 4, 5, 6, 7, 8, 9, T(Ten), J(Jack), Q(Queen), K(King), C(Club), S(Spade), H(Heart), D(Diamond) >
 
 NOTE : Comparing both players hands can also be done while
        reading line from p054_poker.txt but I have kept 
@@ -79,6 +80,28 @@ Ref. : https://stackoverflow.com/questions/53849/how-do-i-tokenize-a-string-in-c
 #include <algorithm>
 
 using namespace std;
+
+// Split String based on delimiter
+vector<string> split(const string& s, char delimiter)
+{
+   vector<string> tokens;
+   string token;
+   istringstream tokenStream(s);
+   while (getline(tokenStream, token, delimiter))
+   {
+      tokens.push_back(token);
+   }
+   return tokens;
+}
+
+// Utility function to print Vectors
+void printVector(vector<int> v){
+        cout<<"< ";
+        for(auto &itr : v){
+                cout<<itr<<" "; 
+        }
+        cout<<">"<<endl;
+}
 
 // Card Value
 int value(char str){
@@ -143,25 +166,24 @@ int value(char str){
 
 // Checking if hand is a Royal Flush
 // Ten, Jack, Queen, King, Ace, in same suit
-bool isRoyalFlush(string hand){
-        vector<int> check(18, false);
+int RoyalFlush(string hand){
+        vector<int> check(18, 0);
         for(int i = 0; i<10; i++){
                 check[value(hand.at(i))]++;
         }
 
-        if(check[10] && check[11] && check[12] && check[13] && check[1] == true
-        && (check[14]==5 || check[15]==5 || check[16]==5 || check[17]==5) ){
-                return true;
+        if(check[10] && check[11] && check[12] && check[13] && check[1] && (check[14]==5 || check[15]==5 || check[16]==5 || check[17]==5) ){
+                return 1;
         }
         else{
-                return false;
+                return 0;
         }
 }
 
 // Checking if hand is a Straight Flush
 // All cards are consecutive values of same suit
 int straightFlush(string hand){
-        vector<int> check(18, false);
+        vector<int> check(18, 0);
   
         for(int i = 0; i<10; i++){
                 check[value(hand.at(i))]++;
@@ -169,18 +191,17 @@ int straightFlush(string hand){
         
         for(int j=0; j+4<13; j++){
 
-                if(check[j] && check[j+1] && check[j+2] && check[j+3] && check[j+4] == true
-                && (check[14]==5 || check[15]==5 || check[16]==5 || check[17]==5) ){
+                if(check[j] && check[j+1] && check[j+2] && check[j+3] && check[j+4] && (check[14]==5 || check[15]==5 || check[16]==5 || check[17]==5) ){
                         return j+4;
-                        }
+                }
         }
-        return false;
+        return 0;
 }
 
 // Checking if hand is a Four of a Kind
 // Four cards of the same value
 int fourOfAKind(string hand){
-        vector<int> check(18, false);
+        vector<int> check(18, 0);
         for(int i = 0; i<10; i+=2){
                 check[value(hand.at(i))]++;
         }
@@ -190,23 +211,23 @@ int fourOfAKind(string hand){
                         return j;
                 }
         }
-        return false;
+        return 0;
 }
 
 // Checking if hand is a Flush
 // All cards of the same suit
-bool flush(string hand){
-        vector<int> check(18, false);
+int flush(string hand){
+        vector<int> check(18, 0);
         
         for(int i = 1; i<10; i+=2){
                 check[value(hand.at(i))]++;
         }
 
         if (check[14]==5||check[15]==5||check[16]==5||check[17]==5){
-                return true;
+                return 1;
         }
         else{
-                return false;
+                return 0;
         }
 }
 
@@ -222,13 +243,13 @@ int straight(string hand){
                         return i+4;
                 }
         }
-        return false;
+        return 0;
 }
 
 // Checking if hand is a Three of a Kind
 // Three cards of the same value
 int threeOfAKind(string hand){
-        vector<int> check(18, false);
+        vector<int> check(18, 0);
         for(int i = 0; i<10; i+=2){
                 check[value(hand.at(i))]++;
         }
@@ -238,13 +259,13 @@ int threeOfAKind(string hand){
                         return j;
                 }
         }
-        return false;
+        return 0;
 }
 
 // Checking if hand is a Two Pairs
 // Two different pairs
 int twoPair(string hand){
-        vector<int> check(18, false);
+        vector<int> check(18, 0);
         int count = 0;
         for(int i=0; i<10; i+=2){
                 check[value(hand.at(i))]++;
@@ -265,24 +286,24 @@ int twoPair(string hand){
                         }
                 }
         }
-        return false;
+        return 0;
 }
 
 // Checking if hand is a One Pair
 // Two cards of the same value
 int onePair(string hand){
-        vector<int> check(18, false);
+        vector<int> check(18, 0);
         for (int i=0;i<10;i+=2){
                 check[value(hand.at(i))]++;
         }
-
+        printVector(check);
         for(int j=0; j<=13; j++){
                 if(check[j] == 2){
                         return j;
                 }
         }
 
-        return false;
+        return 0;
 }
 
 // Checking if hand is a Full House
@@ -292,7 +313,7 @@ int fullHouse(string hand){
                 return threeOfAKind(hand);
         }
         else{
-                return false;
+                return 0;
         }
 }
 
@@ -326,7 +347,7 @@ bool tiebreaker(string hand1, string hand2){
 
 int determineRank(string hand){
         int rank;
-        if(isRoyalFlush(hand)){
+        if(RoyalFlush(hand)){
             rank=9;
         }
         else if (straightFlush(hand)>0){
@@ -356,6 +377,7 @@ int determineRank(string hand){
         else{
             rank=0;
         }
+        return rank;
 }
 
 // Compares both hands to see if Player 1 won
@@ -367,6 +389,7 @@ bool isP1Winner(string hands){
     string p2_hand = hands.substr(10,20);
     int rank1 = determineRank(p1_hand);
     int rank2 = determineRank(p2_hand);
+    //cout<<rank1<<" "<<rank2<<endl;
     if(rank1 > rank2){
             return 1;
     }
@@ -460,62 +483,71 @@ bool isP1Winner(string hands){
             }
     }
 
-    //cout<<"P1 - "<<p1_hand<<endl;
-    //cout<<"P2 - "<<p2_hand<<endl;
-
     return 0;
 }
 
-// Split String based on delimiter
-vector<string> split(const string& s, char delimiter)
-{
-   vector<string> tokens;
-   string token;
-   istringstream tokenStream(s);
-   while (getline(tokenStream, token, delimiter))
-   {
-      tokens.push_back(token);
-   }
-   return tokens;
-}
-
-// Utility function to print Vectors
-void printVector(vector<string> v){
-        for(auto &itr : v){
-                cout<<itr<<endl; 
-        }
+void testOutput(string hand){
+        cout<< "RoyalFlush : " << RoyalFlush(hand)<<endl;
+        cout<< "straightFlush : " << straightFlush(hand)<<endl;
+        cout<< "fourOfAKind : " << fourOfAKind(hand)<<endl;
+        cout<< "flush : " << flush(hand)<<endl;
+        cout<< "straight : " << straight(hand)<<endl;
+        cout<< "threeOfAKind : " << threeOfAKind(hand)<<endl;
+        cout<< "twoPair : " << twoPair(hand)<<endl;
+        cout<< "onePair : " << onePair(hand)<<endl;
+        cout<< "fullHouse : " << fullHouse(hand)<<endl;
+        cout<< "highCard : " << highCard(hand)<<endl;
 }
 
 int main() {
-    fstream newfile;
-    vector<string> all_hands;
-    int res;
+//     fstream newfile;
+//     vector<string> all_hands;
+//     int res = 0;
 
-    newfile.open("p054_poker.txt", ios::in);
+//     newfile.open("p054_poker.txt", ios::in);
 
-    // Read from file and put into 2D Vector
-    if(newfile.is_open()){
-        string s;
-        while(getline(newfile, s)){
-                //cout<<s<<endl;
-                s.erase(remove(s.begin(), s.end(), ' '), s.end());
-                all_hands.push_back(s);
-            }
-            newfile.close();
-    }
+//     // Read from file and put into 2D Vector
+//     if(newfile.is_open()){
+//         string s;
+//         while(getline(newfile, s)){
+//                 //cout<<s<<endl;
+//                 s.erase(remove(s.begin(), s.end(), ' '), s.end());
+//                 all_hands.push_back(s);
+//             }
+//             newfile.close();
+//     }
 
-    int n = all_hands.size();
-    for(int i = 0; i<n; i++){
-            if(isP1Winner(all_hands[i])){
-                    res++;
-            }
-    }
+//     int n = all_hands.size();
+//     for(int i = 0; i<n; i++){
+//             if(isP1Winner(all_hands[i])){
+//                     res++;
+//             }
+//     }
 
-    cout<<res<<endl;
+//     cout<<res<<endl;
 
     //Testing
-    //bool a = isP1Winner("5H5C6S7SKD2C3S8S8DTD");
-    //bool b = isP1Winner("2H2D4C4D4S3C3D3S9S9D");
+    string h1 = "5H5C6S7SKD2C3S8S8DTD";
+    string h2 = "2H2D4C4D4S3C3D3S9S9D";
+    //bool a = isP1Winner(h1); // No
+        // Pair of Fives       Pair of Eights
+    string p1_hand = h1.substr(0,10);
+    string p2_hand = h2.substr(10,20);
+
+    vector<int> check(18, 0);
+        for (int i=0;i<10;i+=2){
+                cout<<p1_hand.at(i)<<endl;
+                check[value(p1_hand.at(i))]++;
+        }
+    cout<<p1_hand<<endl;
+    //printVector(check);
+    testOutput(p1_hand);
+    cout<< "< A 2 3 4 5 6 7 8 9 T J Q K C S H D >" <<endl;
+
+    //bool b = isP1Winner(h2); // Yes
+        // Full House          Full House
+        // With Three Fours    With Three Threes
+    
     //cout<<a<<" "<<b<<endl;
     return 0;
 }

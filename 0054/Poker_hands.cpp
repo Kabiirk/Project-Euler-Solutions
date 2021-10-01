@@ -145,11 +145,10 @@ int value(char str){
 // Ten, Jack, Queen, King, Ace, in same suit
 bool isRoyalFlush(string hand){
         vector<int> check(18, false);
-        int n = check.size();
-        for(int i = 0; i<n; i++){
+        for(int i = 0; i<10; i++){
                 check[value(hand.at(i))]++;
         }
-        
+
         if(check[10] && check[11] && check[12] && check[13] && check[1] == true
         && (check[14]==5 || check[15]==5 || check[16]==5 || check[17]==5) ){
                 return true;
@@ -163,16 +162,16 @@ bool isRoyalFlush(string hand){
 // All cards are consecutive values of same suit
 int straightFlush(string hand){
         vector<int> check(18, false);
-        int n = check.size();
-        for(int i = 0; i<n; i++){
+  
+        for(int i = 0; i<10; i++){
                 check[value(hand.at(i))]++;
         }
         
-        for(int i=0; i+4<13; i++){
+        for(int j=0; j+4<13; j++){
 
-                if(check[i] && check[i+1] && check[i+2] && check[i+3] && check[i+4] == true
+                if(check[j] && check[j+1] && check[j+2] && check[j+3] && check[j+4] == true
                 && (check[14]==5 || check[15]==5 || check[16]==5 || check[17]==5) ){
-                        return i+4;
+                        return j+4;
                         }
         }
         return false;
@@ -194,9 +193,6 @@ int fourOfAKind(string hand){
         return false;
 }
 
-// Checking if hand is a Full House
-// Three of a kind and a pair
-
 // Checking if hand is a Flush
 // All cards of the same suit
 bool flush(string hand){
@@ -206,11 +202,28 @@ bool flush(string hand){
                 check[value(hand.at(i))]++;
         }
 
-        
+        if (check[14]==5||check[15]==5||check[16]==5||check[17]==5){
+                return true;
+        }
+        else{
+                return false;
+        }
 }
 
 // Checking if hand is a Straight
 // All cards are consecutive values
+int straight(string hand){
+        vector<int> check(18, false);
+        for(int a=0; a<10; a+=2){
+                check[value(hand.at(a))]++;
+        }
+        for (int i=0;i+4<=13;i++){
+                if (check[i]==true&&check[i+1]==true&&check[i+2]==true&&check[i+3]==true&&check[i+4]==true){
+                        return i+4;
+                }
+        }
+        return false;
+}
 
 // Checking if hand is a Three of a Kind
 // Three cards of the same value
@@ -238,10 +251,10 @@ int twoPair(string hand){
         }
 
         vector<int> pairs;
-        for(int i=0; i<=13; i++){
-                if(check[i] == 2){
+        for(int j=0; j<=13; j++){
+                if(check[j] == 2){
                         count++;
-                        pairs.push_back(i);
+                        pairs.push_back(j);
                 }
                 if(pairs.size() == 2){
                         if(pairs[0] > pairs[1]){
@@ -272,20 +285,186 @@ int onePair(string hand){
         return false;
 }
 
+// Checking if hand is a Full House
+// Three of a kind and a pair
+int fullHouse(string hand){
+        if(onePair(hand)!=0 && threeOfAKind(hand)>0){
+                return threeOfAKind(hand);
+        }
+        else{
+                return false;
+        }
+}
+
 // Checking if hand is a High Card
 // Highest value card
-int high(string str,int rank){
+int highCard(string str,int rank){
     vector<int> max;
     for (int i=0;i<9;i+=2){
-    if (value(str.at(i))==1)
-        {max.push_back(14);}
-    else
-        {max.push_back(value(str.at(i)));}
+        if (value(str.at(i))==1){
+                max.push_back(14);
+        }
+        else{
+            max.push_back(value(str.at(i)));
+        }
     }
     sort(max.begin(), max.end());
     return max[max.size()-1-rank+1];
 }
 
+bool tiebreaker(string hand1, string hand2){
+        for(int i=1;; i++){
+                if(highCard(hand1, i) > highCard(hand2, i)){
+                        return 1;
+                }
+                else if(highCard(hand1, i) < highCard(hand2, i)){
+                        return 0;
+                }
+        }
+        return 0;
+}
+
+int determineRank(string hand){
+        int rank;
+        if(isRoyalFlush(hand)){
+            rank=9;
+        }
+        else if (straightFlush(hand)>0){
+            rank=8;
+        }
+        else if (fourOfAKind(hand)>0){
+            rank=7;
+        }
+        else if (fullHouse(hand)>0){
+            rank=6;
+        }
+        else if (flush(hand)>0){
+            rank=5;
+        }
+        else if (straight(hand)>0){
+            rank=4;
+        }
+        else if (threeOfAKind(hand)>0){
+            rank=3;
+        }
+        else if (twoPair(hand)>0){
+            rank=2;
+        }
+        else if (onePair(hand)>0){
+            rank=1;
+        }
+        else{
+            rank=0;
+        }
+}
+
+// Compares both hands to see if Player 1 won
+// returns true if Player 1 won 
+//         false if Player 1 lost (i.e. Player 2 won) 
+bool isP1Winner(string hands){
+    // 
+    string p1_hand = hands.substr(0,10);
+    string p2_hand = hands.substr(10,20);
+    int rank1 = determineRank(p1_hand);
+    int rank2 = determineRank(p2_hand);
+    if(rank1 > rank2){
+            return 1;
+    }
+    else if(rank1 < rank2){
+            return 0;
+    }
+    // Tiebreaking conditions
+    else if(rank1 == rank2){
+            if(rank1 == 8){
+                if (straightFlush(p1_hand)>straightFlush(p2_hand)){
+                        return 1;
+                }
+                else if (straightFlush(p1_hand)<straightFlush(p2_hand)){
+                        return 0;
+                }
+                else{
+                        return tiebreaker(p1_hand, p2_hand);
+                }
+            }
+            else if(rank1 == 7){
+                if (fourOfAKind(p1_hand)>fourOfAKind(p2_hand)){
+                        return 1;
+                }
+                else if (fourOfAKind(p1_hand)<fourOfAKind(p2_hand)){
+                        return 0;
+                }
+                else{
+                        return tiebreaker(p1_hand, p2_hand);
+                }
+            }
+            else if(rank1 == 6){
+                if (fullHouse(p1_hand)>fullHouse(p2_hand)){
+                        return 1;
+                }
+                else if (fullHouse(p1_hand)<fullHouse(p2_hand)){
+                        return 0;
+                }
+                else{
+                        return tiebreaker(p1_hand, p2_hand);
+                }
+            }
+            else if(rank1 == 5){
+                    return tiebreaker(p1_hand, p2_hand);
+            }
+            else if(rank1 == 4){
+                if (straight(p1_hand)>straight(p2_hand)){
+                        return 1;
+                }
+                else if (straight(p1_hand)<straight(p2_hand)){
+                        return 0;
+                }
+                else{
+                        return tiebreaker(p1_hand, p2_hand);
+                }
+            }
+            else if(rank1 == 3){
+                if (onePair(p1_hand)>onePair(p2_hand)){
+                        return 1;
+                }
+                else if (onePair(p1_hand)<onePair(p2_hand)){
+                        return 0;
+                }
+                else{
+                        return tiebreaker(p1_hand, p2_hand);
+                }
+            }
+            else if(rank1 == 2){
+                if (twoPair(p1_hand)>twoPair(p2_hand)){
+                        return 1;
+                }
+                else if (twoPair(p1_hand)<twoPair(p2_hand)){
+                        return 0;
+                }
+                else{
+                        return tiebreaker(p1_hand, p2_hand);
+                }
+            }
+            else if(rank1 == 1){
+                if (onePair(p1_hand)>onePair(p2_hand)){
+                        return 1;
+                }
+                else if (onePair(p1_hand)<onePair(p2_hand)){
+                        return 0;
+                }
+                else{
+                        return tiebreaker(p1_hand, p2_hand);
+                }
+            }
+            else if(rank1 == 0){
+                    return tiebreaker(p1_hand, p2_hand);
+            }
+    }
+
+    //cout<<"P1 - "<<p1_hand<<endl;
+    //cout<<"P2 - "<<p2_hand<<endl;
+
+    return 0;
+}
 
 // Split String based on delimiter
 vector<string> split(const string& s, char delimiter)
@@ -307,44 +486,37 @@ void printVector(vector<string> v){
         }
 }
 
-// Compares both hands to see if Player 1 won
-// returns true if Player 1 won 
-//         false if Player 1 lost (i.e. Player 2 won) 
-bool isP1Winner(string hands){
-    // 
-    string p1_hand = hands.substr(0,10);
-    string p2_hand = hands.substr(10,20);
-
-    cout<<"P1 - "<<p1_hand<<endl;
-    cout<<"P2 - "<<p2_hand<<endl;
-
-    return true;
-}
-
 int main() {
     fstream newfile;
-//     vector<string> all_hands;
-//     int res;
+    vector<string> all_hands;
+    int res;
 
-//     newfile.open("p054_poker.txt", ios::in);
+    newfile.open("p054_poker.txt", ios::in);
 
-//     // Read from file and put into 2D Vector
-//     if(newfile.is_open()){
-//         string s;
-//         while(getline(newfile, s)){
-//                 //cout<<s<<endl;
-//                 s.erase(remove(s.begin(), s.end(), ' '), s.end());
-//                 all_hands.push_back(s);
-//             }
-//             newfile.close();
-//     }
+    // Read from file and put into 2D Vector
+    if(newfile.is_open()){
+        string s;
+        while(getline(newfile, s)){
+                //cout<<s<<endl;
+                s.erase(remove(s.begin(), s.end(), ' '), s.end());
+                cout<<s<<endl;
+                all_hands.push_back(s);
+            }
+            newfile.close();
+    }
 
-//     int n = all_hands.size();
+    int n = all_hands.size();
+    for(int i = 0; i<n; i++){
+            if(isP1Winner(all_hands[i])){
+                    res++;
+            }
+    }
 
-//   cout<<res<<endl;
+    cout<<res<<endl;
 
     //Testing
     //bool a = isP1Winner("5H5C6S7SKD2C3S8S8DTD");
     //bool b = isP1Winner("2H2D4C4D4S3C3D3S9S9D");
+    //cout<<a<<" "<<b<<endl;
     return 0;
 }

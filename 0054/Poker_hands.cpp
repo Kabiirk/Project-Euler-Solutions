@@ -499,7 +499,6 @@ int main() {
         while(getline(newfile, s)){
                 //cout<<s<<endl;
                 s.erase(remove(s.begin(), s.end(), ' '), s.end());
-                cout<<s<<endl;
                 all_hands.push_back(s);
             }
             newfile.close();

@@ -319,18 +319,21 @@ int fullHouse(string hand){
 
 // Checking if hand is a High Card
 // Highest value card
-int highCard(string str,int rank){
+int highCard(string hand,int rank){
     vector<int> max;
     for (int i=0;i<9;i+=2){
-        if (value(str.at(i))==1){
+        if (value(hand.at(i))==1){
                 max.push_back(14);
         }
         else{
-            max.push_back(value(str.at(i)));
+            max.push_back(value(hand.at(i)));
         }
     }
     sort(max.begin(), max.end());
-    return max[max.size()-1-rank+1];
+    while( max[max.size()-1] == onePair(hand) || max[max.size()-1] == twoPair(hand) || max[max.size()-1] == threeOfAKind(hand) || max[max.size()-1] == fourOfAKind(hand)){
+            max.pop_back();
+    }
+    return max[max.size()-1];
 }
 
 bool tiebreaker(string hand1, string hand2){
@@ -389,7 +392,7 @@ bool isP1Winner(string hands){
     string p2_hand = hands.substr(10,20);
     int rank1 = determineRank(p1_hand);
     int rank2 = determineRank(p2_hand);
-    cout<<rank1<<" "<<rank2<<endl;
+    //cout<<rank1<<" "<<rank2<<endl;
     if(rank1 > rank2){
             return 1;
     }
@@ -500,52 +503,46 @@ void testOutput(string hand){
 }
 
 int main() {
-//     fstream newfile;
-//     vector<string> all_hands;
-//     int res = 0;
+    fstream newfile;
+    vector<string> all_hands;
+    int res = 0;
 
-//     newfile.open("p054_poker.txt", ios::in);
+    newfile.open("p054_poker.txt", ios::in);
 
-//     // Read from file and put into 2D Vector
-//     if(newfile.is_open()){
-//         string s;
-//         while(getline(newfile, s)){
-//                 //cout<<s<<endl;
-//                 s.erase(remove(s.begin(), s.end(), ' '), s.end());
-//                 all_hands.push_back(s);
-//             }
-//             newfile.close();
-//     }
+    // Read from file and put into 2D Vector
+    if(newfile.is_open()){
+        string s;
+        while(getline(newfile, s)){
+                //cout<<s<<endl;
+                s.erase(remove(s.begin(), s.end(), ' '), s.end());
+                all_hands.push_back(s);
+            }
+            newfile.close();
+    }
 
-//     int n = all_hands.size();
-//     for(int i = 0; i<n; i++){
-//             if(isP1Winner(all_hands[i])){
-//                     res++;
-//             }
-//     }
+    int n = all_hands.size();
+    for(int i = 0; i<n; i++){
+            if(isP1Winner(all_hands[i])){
+                    res++;
+            }
+    }
 
-//     cout<<res<<endl;
+    cout<<res<<endl;
 
     //Testing
-    string h1 = "5H5C6S7SKD2C3S8S8DTD";
-    string h2 = "4D6S9HQHQC3D6D7HQDQS";
-    //bool a = isP1Winner(h1); // No
-        // Pair of Fives       Pair of Eights
+//     string h1 = "5H5C6S7SKD2C3S8S8DTD";
+//     string h2 = "2D9CASAHAC3D6D7DTDQD";
 
+//     string p1_hand = h2.substr(0,10);
+//     string p2_hand = h2.substr(10,20);
 
-    //bool b = isP1Winner(h2); // Yes
-        // Full House          Full House
-        // With Three Fours    With Three Threes
-    string p1_hand = h2.substr(0,10);
-    string p2_hand = h2.substr(10,20);
-
-    cout<<p1_hand<<endl;
-    testOutput(p1_hand);
-    cout<<"\n"<<endl;
-    cout<<p2_hand<<endl;
-    testOutput(p2_hand);
-    bool a = isP1Winner(h2);
-    cout<<a<<endl;
+//     cout<<p1_hand<<endl;
+//     testOutput(p1_hand);
+//     cout<<"\n"<<endl;
+//     cout<<p2_hand<<endl;
+//     testOutput(p2_hand);
+//     bool a = isP1Winner(h2);
+//     cout<<a<<endl;
     
     //cout<< "< A 2 3 4 5 6 7 8 9 T J Q K C S H D >" <<endl;
     return 0;

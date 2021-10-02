@@ -533,8 +533,8 @@ int main() {
 //     string h1 = "5H5C6S7SKD2C3S8S8DTD";
 //     string h2 = "2D9CASAHAC3D6D7DTDQD";
 
-//     string p1_hand = h2.substr(0,10);
-//     string p2_hand = h2.substr(10,20);
+//     string p1_hand = h1.substr(0,10);
+//     string p2_hand = h1.substr(10,20);
 
 //     cout<<p1_hand<<endl;
 //     testOutput(p1_hand);

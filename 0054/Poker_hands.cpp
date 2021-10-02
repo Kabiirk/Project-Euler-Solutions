@@ -349,36 +349,36 @@ bool tiebreaker(string hand1, string hand2){
 }
 
 int determineRank(string hand){
-        int rank;
+        int rank = 0;
         if(RoyalFlush(hand)){
-            rank=9;
+            return 9;
         }
         else if (straightFlush(hand)>0){
-            rank=8;
+            return 8;
         }
         else if (fourOfAKind(hand)>0){
-            rank=7;
+            return 7;
         }
         else if (fullHouse(hand)>0){
-            rank=6;
+            return 6;
         }
         else if (flush(hand)>0){
-            rank=5;
+            return 5;
         }
         else if (straight(hand)>0){
-            rank=4;
+            return 4;
         }
         else if (threeOfAKind(hand)>0){
-            rank=3;
+            return 3;
         }
         else if (twoPair(hand)>0){
-            rank=2;
+            return 2;
         }
         else if (onePair(hand)>0){
-            rank=1;
+            return 1;
         }
         else{
-            rank=0;
+            return 0;
         }
         return rank;
 }
@@ -449,10 +449,17 @@ bool isP1Winner(string hands){
                 }
             }
             else if(rank1 == 3){
-                if (onePair(p1_hand)>onePair(p2_hand)){
+                    // Since Ace is 14 but taken as 1 in switch-case
+                if(threeOfAKind(p1_hand) == 1){
                         return 1;
                 }
-                else if (onePair(p1_hand)<onePair(p2_hand)){
+                else if(threeOfAKind(p2_hand) == 1){
+                        return 0;
+                }
+                if (threeOfAKind(p1_hand)>threeOfAKind(p2_hand)){
+                        return 1;
+                }
+                else if (threeOfAKind(p1_hand)<threeOfAKind(p2_hand)){
                         return 0;
                 }
                 else{
@@ -531,10 +538,10 @@ int main() {
 
     //Testing
 //     string h1 = "5H5C6S7SKD2C3S8S8DTD";
-//     string h2 = "2D9CASAHAC3D6D7DTDQD";
+//     string h2 = "2D9C3S3H3CADAHACTDQD";
 
-//     string p1_hand = h1.substr(0,10);
-//     string p2_hand = h1.substr(10,20);
+//     string p1_hand = h2.substr(0,10);
+//     string p2_hand = h2.substr(10,20);
 
 //     cout<<p1_hand<<endl;
 //     testOutput(p1_hand);

@@ -238,8 +238,13 @@ int straight(string hand){
         for(int a=0; a<10; a+=2){
                 check[value(hand.at(a))]++;
         }
+        // 10 J Q K A sequence
+        if (check[10]&&check[11]&&check[12]&&check[13]&&check[1]){
+                        return 14;
+        }
+
         for (int i=0;i+4<=13;i++){
-                if (check[i]==true&&check[i+1]==true&&check[i+2]==true&&check[i+3]==true&&check[i+4]==true){
+                if (check[i]&&check[i+1]&&check[i+2]&&check[i+3]&&check[i+4]){
                         return i+4;
                 }
         }
@@ -251,11 +256,10 @@ int straight(string hand){
 int threeOfAKind(string hand){
         vector<int> check(18, 0);
         for(int i = 0; i<10; i+=2){
-                check[value(hand.at(i))]++;
+                check[value(hand.at(i))]+=1;
         }
-
-        for(int j = 0; j<13; j++){
-                if(check[j]==4){
+        for(int j = 0; j<=14; j++){
+                if(check[j]<4 && check[j]>2){
                         return j;
                 }
         }
@@ -296,8 +300,8 @@ int onePair(string hand){
         for (int i=0;i<10;i+=2){
                 check[value(hand.at(i))]++;
         }
-        printVector(check);
-        for(int j=0; j<=13; j++){
+        //printVector(check);
+        for(int j=0; j<14; j++){
                 if(check[j] == 2){
                         return j;
                 }
@@ -319,65 +323,100 @@ int fullHouse(string hand){
 
 // Checking if hand is a High Card
 // Highest value card
-int highCard(string str,int rank){
+int highCard(string hand){
     vector<int> max;
-    for (int i=0;i<9;i+=2){
-        if (value(str.at(i))==1){
+    for (int i=0;i<10;i+=2){
+        if (value(hand.at(i))==1){
                 max.push_back(14);
         }
         else{
-            max.push_back(value(str.at(i)));
+            max.push_back(value(hand.at(i)));
         }
     }
     sort(max.begin(), max.end());
-    return max[max.size()-1-rank+1];
+    while( max[max.size()-1] == onePair(hand) || max[max.size()-1] == twoPair(hand) || max[max.size()-1] == threeOfAKind(hand) || max[max.size()-1] == fourOfAKind(hand)){
+            max.pop_back();
+    }
+    return max[max.size()-1];
 }
 
-bool tiebreaker(string hand1, string hand2){
-        for(int i=1;; i++){
-                if(highCard(hand1, i) > highCard(hand2, i)){
+int tiebreaker(string hand1, string hand2){
+        if(highCard(hand1) > highCard(hand2)){
+                return 1;
+        }
+        else if(highCard(hand1) == highCard(hand2)){
+                vector<int> max1, max2;
+                for(int i = 0; i<10; i+=2){
+                        if(value(hand1.at(i))==1){
+                                max1.push_back(14);
+                        }
+                        else{
+                                max1.push_back(value(hand1.at(i)));
+                        }
+                        if(value(hand2.at(i))==1){
+                                max2.push_back(14);
+                        }
+                        else{
+                                max2.push_back(value(hand2.at(i)));
+                        }
+                }
+                sort(max1.begin(), max1.end());
+                sort(max2.begin(), max2.end());
+                while( max1[max1.size()-1] == onePair(hand1) || max1[max1.size()-1] == twoPair(hand1) || max1[max1.size()-1] == threeOfAKind(hand1) || max1[max1.size()-1] == fourOfAKind(hand1)){
+                        max1.pop_back();
+                }
+                while( max2[max2.size()-1] == onePair(hand2) || max2[max2.size()-1] == twoPair(hand2) || max2[max2.size()-1] == threeOfAKind(hand2) || max2[max2.size()-1] == fourOfAKind(hand2)){
+                        max2.pop_back();
+                }
+                while(max1[max1.size()-1] == max2[max2.size()-1]){
+                        max1.pop_back();
+                        max2.pop_back();
+                }
+                if(max1[max1.size()-1] > max2[max2.size()-1]){
                         return 1;
                 }
-                else if(highCard(hand1, i) < highCard(hand2, i)){
+                else{
                         return 0;
                 }
         }
-        return 0;
+        else{
+                return 0;
+        }
 }
 
 int determineRank(string hand){
-        int rank;
+        //int rank = 0;
         if(RoyalFlush(hand)){
-            rank=9;
+            return 9;
         }
         else if (straightFlush(hand)>0){
-            rank=8;
+            return 8;
         }
         else if (fourOfAKind(hand)>0){
-            rank=7;
+            return 7;
         }
         else if (fullHouse(hand)>0){
-            rank=6;
+            return 6;
         }
         else if (flush(hand)>0){
-            rank=5;
+            return 5;
         }
         else if (straight(hand)>0){
-            rank=4;
+            return 4;
         }
         else if (threeOfAKind(hand)>0){
-            rank=3;
+            return 3;
         }
         else if (twoPair(hand)>0){
-            rank=2;
+            return 2;
         }
         else if (onePair(hand)>0){
-            rank=1;
+            return 1;
         }
         else{
-            rank=0;
+            return 0;
         }
-        return rank;
+        //return rank;
 }
 
 // Compares both hands to see if Player 1 won
@@ -398,6 +437,7 @@ bool isP1Winner(string hands){
     }
     // Tiebreaking conditions
     else if(rank1 == rank2){
+            //cout<<"Clash ! "<<rank1<<endl;
             if(rank1 == 8){
                 if (straightFlush(p1_hand)>straightFlush(p2_hand)){
                         return 1;
@@ -439,6 +479,7 @@ bool isP1Winner(string hands){
                         return 1;
                 }
                 else if (straight(p1_hand)<straight(p2_hand)){
+                        cout<<hands<<endl;
                         return 0;
                 }
                 else{
@@ -446,10 +487,10 @@ bool isP1Winner(string hands){
                 }
             }
             else if(rank1 == 3){
-                if (onePair(p1_hand)>onePair(p2_hand)){
+                if (threeOfAKind(p1_hand)>threeOfAKind(p2_hand) || threeOfAKind(p1_hand)==1){
                         return 1;
                 }
-                else if (onePair(p1_hand)<onePair(p2_hand)){
+                else if (threeOfAKind(p1_hand)<threeOfAKind(p2_hand) || threeOfAKind(p2_hand)==1){
                         return 0;
                 }
                 else{
@@ -457,10 +498,10 @@ bool isP1Winner(string hands){
                 }
             }
             else if(rank1 == 2){
-                if (twoPair(p1_hand)>twoPair(p2_hand)){
+                if (twoPair(p1_hand)>twoPair(p2_hand) || twoPair(p1_hand)==1){
                         return 1;
                 }
-                else if (twoPair(p1_hand)<twoPair(p2_hand)){
+                else if (twoPair(p1_hand)<twoPair(p2_hand) || twoPair(p2_hand)==1){
                         return 0;
                 }
                 else{
@@ -486,6 +527,7 @@ bool isP1Winner(string hands){
     return 0;
 }
 
+// Helper function to Test output of all Rank functions
 void testOutput(string hand){
         cout<< "RoyalFlush : " << RoyalFlush(hand)<<endl;
         cout<< "straightFlush : " << straightFlush(hand)<<endl;
@@ -500,54 +542,48 @@ void testOutput(string hand){
 }
 
 int main() {
-//     fstream newfile;
-//     vector<string> all_hands;
-//     int res = 0;
+    fstream newfile;
+    vector<string> all_hands;
+    int res = 0;
 
-//     newfile.open("p054_poker.txt", ios::in);
+    newfile.open("p054_poker.txt", ios::in);
 
-//     // Read from file and put into 2D Vector
-//     if(newfile.is_open()){
-//         string s;
-//         while(getline(newfile, s)){
-//                 //cout<<s<<endl;
-//                 s.erase(remove(s.begin(), s.end(), ' '), s.end());
-//                 all_hands.push_back(s);
-//             }
-//             newfile.close();
-//     }
+    // Read from file and put into 2D Vector
+    if(newfile.is_open()){
+        string s;
+        while(getline(newfile, s)){
+                //cout<<s<<endl;
+                s.erase(remove(s.begin(), s.end(), ' '), s.end());
+                all_hands.push_back(s);
+            }
+            newfile.close();
+    }
 
-//     int n = all_hands.size();
-//     for(int i = 0; i<n; i++){
-//             if(isP1Winner(all_hands[i])){
-//                     res++;
-//             }
-//     }
+    int n = all_hands.size();
+    for(int i = 0; i<n; i++){
+            if(isP1Winner(all_hands[i])){
+                    res++;
+            }
+    }
 
-//     cout<<res<<endl;
+    cout<<res<<endl;
 
     //Testing
-    string h1 = "5H5C6S7SKD2C3S8S8DTD";
-    string h2 = "2H2D4C4D4S3C3D3S9S9D";
-    //bool a = isP1Winner(h1); // No
-        // Pair of Fives       Pair of Eights
-    string p1_hand = h1.substr(0,10);
-    string p2_hand = h2.substr(10,20);
+//     string h1 = "5H5C6S7SKD2C3S5S5DTD";
+//     string h2 = "2D9C3S3H3CADAHACTDQD";
 
-    vector<int> check(18, 0);
-        for (int i=0;i<10;i+=2){
-                cout<<p1_hand.at(i)<<endl;
-                check[value(p1_hand.at(i))]++;
-        }
-    cout<<p1_hand<<endl;
-    //printVector(check);
-    testOutput(p1_hand);
-    cout<< "< A 2 3 4 5 6 7 8 9 T J Q K C S H D >" <<endl;
+//     string p1_hand = h1.substr(0,10);
+//     string p2_hand = h1.substr(10,20);
 
-    //bool b = isP1Winner(h2); // Yes
-        // Full House          Full House
-        // With Three Fours    With Three Threes
+//     cout<<p1_hand<<endl;
+//     testOutput(p1_hand);
+//     cout<<"\n"<<endl;
+//     cout<<p2_hand<<endl;
+//     testOutput(p2_hand);
+//     bool a = isP1Winner(h1);
+//     cout<<a<<endl;
     
-    //cout<<a<<" "<<b<<endl;
+    //cout<< "< A 2 3 4 5 6 7 8 9 T J Q K C S H D >" <<endl;
+
     return 0;
 }

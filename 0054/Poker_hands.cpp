@@ -255,7 +255,7 @@ int threeOfAKind(string hand){
         }
 
         for(int j = 0; j<13; j++){
-                if(check[j]==4){
+                if(check[j]==3){
                         return j;
                 }
         }
@@ -296,7 +296,7 @@ int onePair(string hand){
         for (int i=0;i<10;i+=2){
                 check[value(hand.at(i))]++;
         }
-        printVector(check);
+        //printVector(check);
         for(int j=0; j<=13; j++){
                 if(check[j] == 2){
                         return j;
@@ -389,7 +389,7 @@ bool isP1Winner(string hands){
     string p2_hand = hands.substr(10,20);
     int rank1 = determineRank(p1_hand);
     int rank2 = determineRank(p2_hand);
-    //cout<<rank1<<" "<<rank2<<endl;
+    cout<<rank1<<" "<<rank2<<endl;
     if(rank1 > rank2){
             return 1;
     }
@@ -496,7 +496,7 @@ void testOutput(string hand){
         cout<< "twoPair : " << twoPair(hand)<<endl;
         cout<< "onePair : " << onePair(hand)<<endl;
         cout<< "fullHouse : " << fullHouse(hand)<<endl;
-        cout<< "highCard : " << highCard(hand)<<endl;
+        cout<< "highCard : " << highCard(hand, 1)<<endl;
 }
 
 int main() {
@@ -528,26 +528,25 @@ int main() {
 
     //Testing
     string h1 = "5H5C6S7SKD2C3S8S8DTD";
-    string h2 = "2H2D4C4D4S3C3D3S9S9D";
+    string h2 = "4D6S9HQHQC3D6D7HQDQS";
     //bool a = isP1Winner(h1); // No
         // Pair of Fives       Pair of Eights
-    string p1_hand = h1.substr(0,10);
-    string p2_hand = h2.substr(10,20);
 
-    vector<int> check(18, 0);
-        for (int i=0;i<10;i+=2){
-                cout<<p1_hand.at(i)<<endl;
-                check[value(p1_hand.at(i))]++;
-        }
-    cout<<p1_hand<<endl;
-    //printVector(check);
-    testOutput(p1_hand);
-    cout<< "< A 2 3 4 5 6 7 8 9 T J Q K C S H D >" <<endl;
 
     //bool b = isP1Winner(h2); // Yes
         // Full House          Full House
         // With Three Fours    With Three Threes
+    string p1_hand = h2.substr(0,10);
+    string p2_hand = h2.substr(10,20);
+
+    cout<<p1_hand<<endl;
+    testOutput(p1_hand);
+    cout<<"\n"<<endl;
+    cout<<p2_hand<<endl;
+    testOutput(p2_hand);
+    bool a = isP1Winner(h2);
+    cout<<a<<endl;
     
-    //cout<<a<<" "<<b<<endl;
+    //cout<< "< A 2 3 4 5 6 7 8 9 T J Q K C S H D >" <<endl;
     return 0;
 }

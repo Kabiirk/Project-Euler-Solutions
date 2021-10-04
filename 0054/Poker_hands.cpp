@@ -188,9 +188,11 @@ int straightFlush(string hand){
         for(int i = 0; i<10; i++){
                 check[value(hand.at(i))]++;
         }
-        
-        for(int j=0; j+4<13; j++){
-
+        // Ten, Jack, Queen, King, Ace
+        if(check[0] && check[10] && check[11] && check[12] && check[13] && (check[14]==5 || check[15]==5 || check[16]==5 || check[17]==5) ){
+                        return 14;
+                }
+        for(int j=1; j+4<13; j++){
                 if(check[j] && check[j+1] && check[j+2] && check[j+3] && check[j+4] && (check[14]==5 || check[15]==5 || check[16]==5 || check[17]==5) ){
                         return j+4;
                 }

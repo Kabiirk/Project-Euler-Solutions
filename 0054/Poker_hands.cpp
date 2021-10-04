@@ -57,7 +57,10 @@ Answer : 376
 
 /*
 TIPS:
-vector check = < A(Ace), 2, 3, 4, 5, 6, 7, 8, 9, T(Ten), J(Jack), Q(Queen), K(King), C(Club), S(Spade), H(Heart), D(Diamond) >
+cardNumArray -> Stored sorted numbers (including equivalents of Ten, Ace, Jack, King & Queen)
+                e.g. for hand "AS KD 3D JD 8H", cardNumArray would be [ 3, 8, 11, 13, 14 ]
+
+Straightforward approach
 
 NOTE : Comparing both players hands can also be done while
        reading line from p054_poker.txt but I have kept 
@@ -78,8 +81,17 @@ Ref. : https://stackoverflow.com/questions/53849/how-do-i-tokenize-a-string-in-c
 
 using namespace std;
 
-//int compareHands(int, int, int, int);
+// Store numbers in an array
+// To be sorted Later
 int cardNumArray[5]={}, handHigh=0, totalHigh=0;
+
+void printCardNumArray(){
+        cout<<"[ ";
+        for(int i = 0; i<5; i++){
+                cout<<cardNumArray[i]<<" ";
+        }
+        cout<<"]"<<endl;
+}
 
 // converts all T,J,Q,K,A into number equivalents
 // E.g. : Converts "AS KD 3D JD 8H" to "14S 13D 3D 11D 8H"
@@ -147,7 +159,7 @@ void removeCards(){
 }
 
 // checks numbers of cardNumArray for straight
-bool straight(){
+bool isStraight(){
         for(int i=0; i<=2; i++){
                 if(cardNumArray[i] == cardNumArray[i+1]-1)
                         continue;
@@ -166,7 +178,7 @@ bool straight(){
 }
 
 // removes everything but suits from hand to see if flush
-bool flush(string hand){
+bool isFlush(string hand){
         string temp = hand;
         temp.erase(remove_if(temp.begin(), temp.end(), ::isspace), temp.end());
         temp.erase(remove_if(temp.begin(), temp.end(), ::isdigit), temp.end());
@@ -202,7 +214,7 @@ int nofaKind(){
 }
 
 // checks for pairs in cardNumArray
-bool pairs(){
+bool isPairs(){
         int count=0;
         for(int i=0; i<=3; i++){
                 if(cardNumArray[i] == 0){
@@ -223,9 +235,9 @@ bool pairs(){
 
 // associates a hand with its rank against other hands
 int determineRank(string hand){
-        bool flushTrue = flush(hand);
+        bool flushTrue = isFlush(hand);
         //check for straight, straight flush, or royal flush
-        if(straight()){
+        if(isStraight()){
                 if(flushTrue){
                         if(cardNumArray[0]==10)
                         	return 9;
@@ -243,14 +255,14 @@ int determineRank(string hand){
         if(kind == 4)
                 return 7;
         else if(kind == 3){
-                if(pairs())
+                if(isPairs())
                 	return 6;
                 else
                 	return 3;
         } 
         //check for two pair or single pair;
-        else if(pairs()){
-                if(pairs())
+        else if(isPairs()){
+                if(isPairs())
                         return 2;
                 else
                         return 1;
@@ -261,17 +273,17 @@ int determineRank(string hand){
 }
 
 // if hands are the same, high cards are compared to determine winner
-int tiebreaker(int handHigh1, int totalHigh1, int handHigh2, int totalHigh2){
-	if(handHigh1 > handHigh2)
-		return 1;
-	else if(handHigh2 > handHigh1)
-		return 2;
-	else {
-		if(totalHigh1 > totalHigh2)
-			return 1;
-		else
-			return 2;
-	}
+int tiebreaker(int handHigh1, int highcard1, int handHigh2, int highcard2){
+        if(handHigh1 > handHigh2)
+                return 1;
+        else if(handHigh2 > handHigh1)
+                return 2;
+        else {
+                if(highcard1 > highcard2)
+                        return 1;
+                else
+                        return 2;
+        }
 }
 
 // tests both hands to determine what they are
@@ -290,10 +302,12 @@ int P1Winner(string hand1, string hand2){
         rank2 = determineRank(hand2);
         handHigh2 = handHigh, highcard2 = totalHigh;
         
-        cout<<hand1<<endl;
-        cout<<handHigh1<<" "<<highcard1<<endl;
-        cout<<hand2<<endl;
-        cout<<handHigh2<<" "<<highcard2<<endl;
+        // cout<<hand1<<endl;
+        // cout<<handHigh1<<" "<<highcard1<<endl;
+        // cout<<hand2<<endl;
+        // cout<<handHigh2<<" "<<highcard2<<endl;
+
+        cout<<rank1<<" and "<<rank2<<endl;
 
         // Comparing Rank of Hands
         if(rank1 > rank2){
@@ -312,31 +326,31 @@ int main(){
     int res=0, winner=0;
     string hands, hand1, hand2;
 
-//     newfile.open("p054_poker.txt", ios::in);
+    newfile.open("p054_poker.txt", ios::in);
 
-//     // Read from file and put into 1D Vector
-//     if(newfile.is_open()){
-//         string s;
-//         while(getline(newfile, s)){
-//                 hand1 = s.substr(0, 14); // "AS KD 3D JD 8H"
-//                 hand2 = s.substr(15, 14); // "7C 8C 5C QD 6C"
-//                 winner = P1Winner(hand1, hand2);
-//                 if(winner == 1){
-//                         res++;
-//                 }
-//             }
-//             newfile.close();
-//     }
+    // Read from file and put into 1D Vector
+    if(newfile.is_open()){
+        string s;
+        while(getline(newfile, s)){
+                hand1 = s.substr(0, 14); // "AS KD 3D JD 8H"
+                hand2 = s.substr(15, 14); // "7C 8C 5C QD 6C"
+                winner = P1Winner(hand1, hand2);
+                if(winner == 1){
+                        res++;
+                }
+            }
+            newfile.close();
+    }
 
-    cout<<res<<endl;
+   cout<<res<<endl;
 
     // Testing
     //string hand = "AS KD 3D JD 8H 7C 8C 5C QD 6C";
     //string hand = "5H 5C 6S 7S KD 2C 3S 8S 8D TD";
-    string hand = "4D 6S 9H QH QC 3D 6D 7H QD QS";
-    hand1 = hand.substr(0, 14);
-    hand2 = hand.substr(15, 14);
-    cout<<P1Winner(hand1, hand2)<<endl;
+//     string hand = "4D 6S 9H QH QC 3D 6D 7H QD QS";
+//     hand1 = hand.substr(0, 14);
+//     hand2 = hand.substr(15, 14);
+//     cout<<P1Winner(hand1, hand2)<<endl;
 
     return 0;
 }

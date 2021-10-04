@@ -52,12 +52,22 @@ each player's hand is in no specific order, and in each hand there is a clear wi
 
 How many hands does Player 1 win?
 
-Answer : 
+Answer : 376
 */
 
 /*
 TIPS:
 vector check = < A(Ace), 2, 3, 4, 5, 6, 7, 8, 9, T(Ten), J(Jack), Q(Queen), K(King), C(Club), S(Spade), H(Heart), D(Diamond) >
+We check and rank cards based on whichever Ranks they validate.
+in case of Clashes(Same rank) , we compare either which hand's rank was made with higher cards
+E.g.:
+Hand1 : Pair of 3
+Hand2 : Pair of 5
+Result : Hand2 wins, since even though both have Pairs, Hand2 has Pair of 5
+         & Hand1 has a Pair of 3 . So 5 is greater of the two.
+
+Based on comparing Rank and Tiebreakers, we check wether P1 won or not(isP1Winner())
+and increment result accordingly.
 
 NOTE : Comparing both players hands can also be done while
        reading line from p054_poker.txt but I have kept 
@@ -69,7 +79,6 @@ Ref. : https://www.fluentcpp.com/2017/04/21/how-to-split-a-string-in-c/
 
 Some more info on splitting strings
 Ref. : https://stackoverflow.com/questions/53849/how-do-i-tokenize-a-string-in-c
-
 */
 
 #include <iostream>
@@ -283,7 +292,15 @@ int twoPair(string hand){
                         count++;
                         pairs.push_back(j);
                 }
+
                 if(pairs.size() == 2){
+                        // Ace = 14
+                        if(pairs[0] == 1){
+                                return 14;
+                        }
+                        if(pairs[1]==1){
+                                return 14;
+                        }
                         if(pairs[0] > pairs[1]){
                                 return pairs[0];
                         }
@@ -570,22 +587,17 @@ int main() {
 
     cout<<res<<endl;
 
-    //Testing
-//     string h1 = "5H5C6S7SKD2C3S5S5DTD";
+//     //Testing
+//     string h1 = "6H6CASASKD2CAS5S5DAD";
 //     string h2 = "2D9C3S3H3CADAHACTDQD";
 
 //     string p1_hand = h1.substr(0,10);
 //     string p2_hand = h1.substr(10,20);
 
-//     cout<<p1_hand<<endl;
-//     testOutput(p1_hand);
-//     cout<<"\n"<<endl;
-//     cout<<p2_hand<<endl;
-//     testOutput(p2_hand);
-//     bool a = isP1Winner(h1);
-//     cout<<a<<endl;
+//     cout<<twoPair(p1_hand)<<endl;
+//     cout<<twoPair(p2_hand)<<endl;
     
-    //cout<< "< A 2 3 4 5 6 7 8 9 T J Q K C S H D >" <<endl;
+//     //cout<< "< A 2 3 4 5 6 7 8 9 T J Q K C S H D >" <<endl;
 
     return 0;
 }

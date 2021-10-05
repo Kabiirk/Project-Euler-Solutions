@@ -84,7 +84,7 @@ We compare highcard of each hand.
 NOTE : I have Compared both players hands while
        reading line from p054_poker.txt but in
        case if it needs to be done separately,
-       Store string in array/vector and use isP1Winner()
+       Store string in array/vector and use P1Winner()
        while iterating through that loop.
 
 Awesome article about splitting strings

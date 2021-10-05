@@ -66,7 +66,7 @@ Jack(11), Queen(12), King(K), Ace(14)) with cardNumArray and highest Card of eac
 Our main workhorse is determineRank() which checks for rank of a hand based on conditions given in the
 question .
 
-in isP1Winner(), we compare rank of both hands and in case rank is same, we check which hand has higher
+in P1Winner(), we compare rank of both hands and in case rank is same, we check which hand has higher
 card in that rank (i.e. say hands of Player 2 and Player 2 are :
 
 Player 1            Player 2      

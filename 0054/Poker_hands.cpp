@@ -60,12 +60,32 @@ TIPS:
 cardNumArray -> Stored sorted numbers (including equivalents of Ten, Ace, Jack, King & Queen)
                 e.g. for hand "AS KD 3D JD 8H", cardNumArray would be [ 3, 8, 11, 13, 14 ]
 
-Straightforward approach
+Straightforward approach, while comparing each hand, we keep track of all numbers (incl. Ten(10), 
+Jack(11), Queen(12), King(K), Ace(14)) with cardNumArray and highest Card of each hand(highcard1 & highcard2).
 
-NOTE : Comparing both players hands can also be done while
-       reading line from p054_poker.txt but I have kept 
-       reading data from file and writing data from file
-       as separate operations.
+Our main workhorse is determineRank() which checks for rank of a hand based on conditions given in the
+question .
+
+in isP1Winner(), we compare rank of both hands and in case rank is same, we check which hand has higher
+card in that rank (i.e. say hands of Player 2 and Player 2 are :
+
+Player 1            Player 2      
+5H 5C 6S 7S KD      2C 3S 8S 8D TD
+Pair of Fives       Pair of Eights
+
+if both hands have 1 pair which is same rank, but  pair of 8s beats pair of 5s, hence Player 2 Wins this round)
+
+In this case highcard1 = 13(K) & highcard2 = 10(T) while handhigh1 = 5 and handhigh2 = 8.
+
+In case of same rank, we execute tiebreaker() where first handhigh1 & handhigh2 are compared.
+In case handhigh1 & handhigh2 are both same (say if, both hands have a pair of 5s or similar ties)
+We compare highcard of each hand.
+
+NOTE : I have Compared both players hands while
+       reading line from p054_poker.txt but in
+       case if it needs to be done separately,
+       Store string in array/vector and use isP1Winner()
+       while iterating through that loop.
 
 Awesome article about splitting strings
 Ref. : https://www.fluentcpp.com/2017/04/21/how-to-split-a-string-in-c/
@@ -81,10 +101,13 @@ Ref. : https://stackoverflow.com/questions/53849/how-do-i-tokenize-a-string-in-c
 
 using namespace std;
 
-// Store numbers in an array
-// To be sorted Later
+// cardNumArray = Store numbers in an array
+// (To be sorted Later)
+// handHigh = Highest card in a hand for a rank.
+// totalHigh = highest card in a rank (irrespective wether it is a part of any card combo or not.)
 int cardNumArray[5]={}, handHigh=0, totalHigh=0;
 
+// Utility funtion
 void printCardNumArray(){
         cout<<"[ ";
         for(int i = 0; i<5; i++){
@@ -146,7 +169,7 @@ void organizeCards(){
         }
 }
 
-// in event of three of a kind, replace 3 repeating cards in cardNumArray with zeros
+// If three of a kind, replace 3 repeating cards in cardNumArray with zeros
 // remaining non-zero cards can then be checked for additional pair, making full house
 void removeCards(){
         for(int i=0; i<=3; i++){
@@ -301,13 +324,8 @@ int P1Winner(string hand1, string hand2){
         organizeCards();
         rank2 = determineRank(hand2);
         handHigh2 = handHigh, highcard2 = totalHigh;
-        
-        // cout<<hand1<<endl;
-        // cout<<handHigh1<<" "<<highcard1<<endl;
-        // cout<<hand2<<endl;
-        // cout<<handHigh2<<" "<<highcard2<<endl;
 
-        cout<<rank1<<" and "<<rank2<<endl;
+        // cout<<rank1<<" and "<<rank2<<endl;
 
         // Comparing Rank of Hands
         if(rank1 > rank2){
@@ -343,14 +361,6 @@ int main(){
     }
 
    cout<<res<<endl;
-
-    // Testing
-    //string hand = "AS KD 3D JD 8H 7C 8C 5C QD 6C";
-    //string hand = "5H 5C 6S 7S KD 2C 3S 8S 8D TD";
-//     string hand = "4D 6S 9H QH QC 3D 6D 7H QD QS";
-//     hand1 = hand.substr(0, 14);
-//     hand2 = hand.substr(15, 14);
-//     cout<<P1Winner(hand1, hand2)<<endl;
 
     return 0;
 }

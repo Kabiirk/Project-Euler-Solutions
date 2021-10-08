@@ -19,8 +19,18 @@ TIPS:
 
 using namespace std;
 
+int digitSum(int n){
+    int temp = 0;
+    while(n > 0){
+        temp += n%10;
+        n = n/10;
+    }
+    return temp;
+}
+
 int main() {
     cout<<"Hello Euler !!"<<endl;
+    cout<<digitSum(12345)<<endl;
 
     return 0;
 }

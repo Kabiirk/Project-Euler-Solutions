@@ -16,6 +16,7 @@ TIPS:
 */
 
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -30,7 +31,22 @@ int digitSum(int n){
 
 int main() {
     cout<<"Hello Euler !!"<<endl;
-    cout<<digitSum(12345)<<endl;
+    int max_digit_sum = 0;
+    int a_max, b_max;
+    int num= 0;
+    for(int a = 2; a<=10; a++){
+        for(int b = 2; b<=10; b++){
+            int power_num = pow(a, b);
+            int current_digit_sum = digitSum(power_num);
+            if(current_digit_sum > max_digit_sum){
+                max_digit_sum = current_digit_sum;
+                a_max = a;
+                b_max = b;
+                num = power_num;
+            }
+        }
+    }
+    cout<<max_digit_sum<<" "<<a_max<<" "<<b_max<<" "<<num<<endl;
 
     return 0;
 }

@@ -30,14 +30,14 @@ int digitSum(int n){
 }
 
 int main() {
-    cout<<"Hello Euler !!"<<endl;
     int max_digit_sum = 0;
     int a_max, b_max;
     int num= 0;
-    for(int a = 2; a<=10; a++){
-        for(int b = 2; b<=10; b++){
+    for(int a = 2; a<=8; a++){
+        for(int b = 2; b<=8; b++){
             int power_num = pow(a, b);
             int current_digit_sum = digitSum(power_num);
+            cout<<a<<"^"<<b<<" = "<<power_num<<" -> "<<current_digit_sum<<endl;
             if(current_digit_sum > max_digit_sum){
                 max_digit_sum = current_digit_sum;
                 a_max = a;

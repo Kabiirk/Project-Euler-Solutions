@@ -37,7 +37,7 @@ int main() {
         for(int b = 2; b<=8; b++){
             int power_num = pow(a, b);
             int current_digit_sum = digitSum(power_num);
-            cout<<a<<"^"<<b<<" = "<<power_num<<" -> "<<current_digit_sum<<endl;
+            //cout<<a<<"^"<<b<<" = "<<power_num<<" -> "<<current_digit_sum<<endl;
             if(current_digit_sum > max_digit_sum){
                 max_digit_sum = current_digit_sum;
                 a_max = a;

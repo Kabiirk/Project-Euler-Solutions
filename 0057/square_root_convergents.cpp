@@ -82,7 +82,15 @@ bignum scalarMultipleVect(bignum vect, int scalar){
     int n = vect.size();
     int carry= 0;
     for(int i = 0; i<n; i++){
-        vect[i] *= 2;
+        vect[i] = vect[i]*2 + carry;
+        carry = 0;
+        if(vect[i] >= 10){
+            carry = 1;
+            vect[i] -= 10;
+            if(i == n-1){
+                vect.push_back(carry);
+            }
+        }
     }
     return vect;
 }
@@ -114,10 +122,6 @@ int main() {
     }
 
     cout<<res<<endl;
-
-    bignum a = {1,2,3,4};
-    bignum b = {1,2,3,4, 5};
-    printVector(addVect(a, b));
 
     // Ref.: https://stackoverflow.com/questions/28607912/sum-values-of-2-vectors
     // transform (a.begin(), a.end(), b.begin(), a.begin(), plus<int>());

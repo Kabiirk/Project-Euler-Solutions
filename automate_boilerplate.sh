@@ -1,13 +1,13 @@
 # Makes new file_name.cpp with given content
 # Run the srcipt with commit message as command line argument :
-# bash automate_copy_rename.sh XXXX file_name
+# bash automate_copy_rename.sh XXXX file_name c++/py
 #
 # XXXX - Problem Number with leading zeros if it is less
 # than 4 digits
 # e.g. : If problem number is 69, command used would be 
 # bash automate_copy_rename.sh 0069 file_name
 
-if [ $# -ne 2 ]
+if [ $# -ne 3 ]
   then
     echo "Improper number of arguments supplied"
     exit 1
@@ -23,7 +23,9 @@ fi
 mkdir $1/
 
 # File creation
-echo "/*
+if [ "$3" = "c++" ]
+  then
+    echo "/*
 Problem x
 
 Answer : 
@@ -42,8 +44,21 @@ int main() {
     cout<<\"Hello Euler !!\"<<endl;
 
     return 0;
-}" > $1/$2.cpp
+}" > $1/$2.cpp;
+  else
+    echo "'''
+Problem X
 
+Answer :
+'''
+
+'''
+TIPS:
+
+'''
+
+print(\"Hello Euler !!\")" > $1/$2.py;
+fi
 cd ..
 
-echo "Boilerlpate Directory created !!"
+echo "Boilerlpate Directory created !!";

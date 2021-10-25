@@ -35,10 +35,57 @@ TIPS:
 
 '''
 
+from itertools import product
+
+ascii_lowercase = 'abcdefghijklmnopqrstuvwxyz'
+keywords = [''.join(i) for i in product(ascii_lowercase, repeat = 3)]
+# print(keywords) ['aaa', 'aab', 'aac', 'aad',....'zzx', 'zzy', 'zzz' ]
+
+def check_valid_alphabet(cipher_letter, english_letter):
+    xor = cipher_letter ^ english_letter
+    if 32 <= xor <= 90:
+        return True
+    elif 97 <= xor <= 122:
+        return True
+    return False
+
 # Read file
 with open('p059_cipher.txt') as f:
     lines = f.readlines()[0]
-    nums = list(map(int, lines.split(',')))
-    print(nums)
+    cipher = list(map(int, lines.split(',')))
 
     f.close()
+
+# Lowercase ascii eng letters
+ascii_eng_letters = list(range(97, 123))
+
+print(len(cipher))
+print(ascii_eng_letters)
+
+letter1 = set()
+for j in ascii_eng_letters:
+    for i in range(0, len(cipher), 3):
+        print(letter1)
+        if not check_valid_alphabet(cipher[i], j):
+            letter1.remove(j)
+            break
+
+# letter2 = set()
+# for j in ascii_eng_letters:
+#     for i in range(0, len(cipher), 3):
+#         letter2.add(j)
+#         if not check_valid_alphabet(cipher[i], j):
+#             letter2.remove(j)
+#             break
+
+# letter3 = set()
+# for j in ascii_eng_letters:
+#     for i in range(0, len(cipher), 3):
+#         letter3.add(j)
+#         if not check_valid_alphabet(cipher[i], j):
+#             letter3.remove(j)
+#             break
+
+# print(letter1)
+# print(letter2)
+# print(letter3)

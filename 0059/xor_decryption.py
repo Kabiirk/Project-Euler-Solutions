@@ -33,7 +33,59 @@ Answer : 129448
 '''
 TIPS:
 The solution was obtained by frequency analysis of alphabets that gave valid XOR results
-for respective rotated message elements
+for respective rotated message elements.
+
+for ease of explanation, say our cipher message is :
+message : [ 36, 22, 80, 0, 0, 4, 23, 25, 19, 17, 88, 4, 4, 19, 21, 11, 88 ]
+index   :    0   1   2  3  4  5   6   7   8   9  10 11 12  13  14  15  16
+
+and key array is : [k1, k2, k3] 
+where our key is k1 k2 k3 (stored in an array for easier usage)
+
+HOW TO DECRYPT :
+now as per the question if key is shorter thsn the message (true as key has only 3 characters)
+then "the key is repeated cyclically throughout the message" i.e. 'n'th charcter in the cipher
+message is to be XOR'ed with (n%3)th character/element of the key. (3 is the length of key and
+can be adjusted accordingly). So our XOR operations should be done as this :
+message     : [ 36, 22, 80,  0,  0,  4, 23, 25, 19, 17, 88,  4,  4, 19, 21, 11, 88, 69 ....]
+operation   :    ^   ^   ^   ^   ^   ^   ^   ^   ^   ^   ^   ^   ^   ^   ^   ^   ^   ^   ---> (^) means XOR
+Key element :   k1, k2, k3, k1, k2, k3, k1, k2, k3, k1, k2, k3, k1, k2, k3, k1, k2, k3 ....
+
+i.e. XOR'ing 
+1st character of cipher message with 1st character of Key
+2nd character of cipher message with 2nd character of Key
+3rd character of cipher message with 3rd character of Key
+4th character of cipher message with 1st character of Key (1 = 4%3)
+5th character of cipher message with 2nd character of Key (2 = 5%3)
+...
+(n-1)th character of cipher message with (n%3)th character of Key
+(n)th character of cipher message with (n%3)th character of Key
+
+i.e. (accounting for array offset, modulo result changes accordingly)
+k1 ^ [0, 3, 6, 9, ...] elements of cipher message
+k2 ^ [1, 4, 7, 10, ...] elements of cipher message
+k3 ^ [2, 5, 8, 11, ...] elements of cipher message
+
+APPROACH TO SOLVE :
+1) Brute force : Generate all 3 letter combos from aaa, aab to zzz and
+                 decrypt message for every key. Then check which message
+                 makes sense (can be done by checking if there are english 
+                 words present or not etc.)
+
+2) Dynamic approach : We already know how key is rotated cyclically and XOR'ed
+                 with respective cipher character, what we do is we generate
+                 a list having lowercase english letters in ASCII form
+                 and XOR each alphabet with respective message character.
+                 And if the XOR result is valid ASCII letter, store it in the dictionary
+                 (as done in check_valid_alphabet() ).
+
+                 Frequency Analysis :
+                 The letter with the most valid results would be our key character
+                 we do this to find all our key characters (3 in this case)
+
+                 To decrypt our message we simply XOR key characters with CIpher message
+                 as described (decrypt()) and find the sum of that list(required answer) 
+
 
 Note : the key & Decrypted message was initially a religious text, but was changed
 due to issues and is now  as follows :
@@ -78,17 +130,11 @@ When the original text was chosen there were three criteria:
 
 For this reason the original text was an extract taken from the New Testament and the key was "god".
 
-Team Project Euler did not want members of different religions to feel uncomfortable being exposed to a text from
-another religion and similarly they did not wish Christians to feel offended that their sacred text
-was being used in a less than reverent context.
-
+Team Project Euler did not want members of different religions to feel uncomfortable being exposed
+to a text from another religion and similarly they did not wish Christians to feel offended that
+their sacred text was being used in a less than reverent context.
 '''
 
-from itertools import product
-
-ascii_lowercase = 'abcdefghijklmnopqrstuvwxyz'
-keywords = [''.join(i) for i in product(ascii_lowercase, repeat = 3)]
-# print(keywords) ['aaa', 'aab', 'aac', 'aad',....'zzx', 'zzy', 'zzz' ]
 
 def check_valid_alphabet(cipher_letter, english_letter):
     xor = cipher_letter ^ english_letter
@@ -120,6 +166,7 @@ with open('p059_cipher.txt') as f:
 # Lowercase ascii eng letters
 ascii_eng_letters = list(range(97, 123))
 
+# For frequency analysis to find key characters
 letter1 = {}
 for j in ascii_eng_letters:
     letter1[str(j)] = 1

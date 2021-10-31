@@ -12,16 +12,17 @@ Octagonal       P(8,n)=n(3n−2)        1, 8, 21, 40, 65, ...
 The ordered set of three 4-digit numbers: 8128, 2882, 8281, has three interesting
 properties.
 
-The set is cyclic, in that the last two digits of each number is the first two digits
-of the next number (including the last number with the first).
-Each polygonal type: triangle (P3,127=8128), square (P4,91=8281), and pentagonal (P5,44=2882),
-is represented by a different number in the set.
-This is the only set of 4-digit numbers with this property.
+1. The set is cyclic, in that the last two digits of each number is the first two digits
+   of the next number (including the last number with the first).
+2. Each polygonal type: triangle (P3,127=8128), square (P4,91=8281), and pentagonal (P5,44=2882),
+   is represented by a different number in the set.
+3. This is the only set of 4-digit numbers with this property.
+
 Find the sum of the only ordered set of six cyclic 4-digit numbers for which each polygonal type:
 triangle, square, pentagonal, hexagonal, heptagonal, and octagonal, is represented by a different
 number in the set.
 
-Answer :
+Answer : 28684
 '''
 
 '''
@@ -29,4 +30,48 @@ TIPS:
 
 '''
 
-print("Hello Euler !!")
+def triangle_num(n):
+    return n*(n+1)//2
+
+def square_num(n):
+    return n*n
+
+def pentagon_num(n):
+    return n*(3*n-1)//2
+
+def hexagon_num(n):
+    return n*(2*n-1)
+
+def heptagon_num(n):
+    return n*(5*n-3)//2
+
+def octagon_num(n):
+    return n*(3*n-2)
+
+def is_cyclic(a, b):
+    return str(a)[-2:] == str(b)[:2]
+
+def find_cyclic_sum(nums):
+    res = 0
+    for k1,v1 in nums:
+        for k2,v2 in [(k, v) for k, v in nums if k not in [k1] and is_cyclic(v1, v)]:
+            for k3,v3 in [(k, v) for k, v in nums if k not in [k1, k2] and is_cyclic(v2, v)]:
+                for k4,v4 in [(k, v) for k, v in nums if k not in [k1, k2, k3] and is_cyclic(v3, v)]:
+                    for k5,v5 in [(k, v) for k, v in nums if k not in [k1, k2, k3, k4] and is_cyclic(v4, v)]:
+                        for k6,v6 in [(k, v) for k, v in nums if k not in [k1, k2, k3, k4, k5] and is_cyclic(v5, v)]:
+                            if( is_cyclic(v6, v1) ):
+                                res = sum([v1, v2, v3, v4, v5, v6])
+                                return res
+
+cyclic_group = {
+    3 : [n for n in map(triangle_num, list(range(1000))) if n<10000 and n>=1000],
+    4 : [n for n in map(square_num, list(range(1000))) if n<10000 and n>=1000],
+    5 : [n for n in map(pentagon_num, list(range(1000))) if n<10000 and n>=1000],
+    6 : [n for n in map(hexagon_num, list(range(1000))) if n<10000 and n>=1000],
+    7 : [n for n in map(heptagon_num, list(range(1000))) if n<10000 and n>=1000],
+    8 : [n for n in map(octagon_num, list(range(1000))) if n<10000 and n>=1000]
+}
+
+nums = [(key, value) for key in list(cyclic_group.keys()) for value in cyclic_group[key]]
+res = find_cyclic_sum(nums)
+print(res)

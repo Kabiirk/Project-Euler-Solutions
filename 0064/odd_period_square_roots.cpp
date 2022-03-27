@@ -46,20 +46,42 @@ Exactly four continued fractions, for N ≤ 13, have an odd period.
 
 How many continued fractions for N ≤ 10000 have an odd period ?
 
-Answer : 
-*/
-
-/*
-TIPS:
-
+Answer : 1322
 */
 
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
 int main() {
-    cout<<"Hello Euler !!"<<endl;
+    int upperbound = 10000;
+    int result = 0;
+
+    for (int n = 2; n <= upperbound; n++) {
+        int limit = (int)sqrt(n);
+        if (limit * limit == n){
+            continue;
+        }
+
+        int period = 0;
+        int d = 1;
+        int m = 0;
+        int a = limit;
+
+        do{
+            m = d*a - m;
+            d = (n - m * m) / d;
+            a = (limit + m) / d;
+            period++;
+        }while(a != 2*limit);
+
+        if (period % 2 == 1){
+            result++;
+        }
+    }
+
+    cout<<result<<endl;
 
     return 0;
 }

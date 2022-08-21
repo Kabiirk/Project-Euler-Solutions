@@ -1,3 +1,15 @@
+/*
+NOTE : This solution was taken from here:
+
+****************************************
+* https://euler.stephan-brumme.com/66/ *
+****************************************
+
+I have kept this in the repo as well so
+I can study this solution's BigNum class as
+that looked interesting.
+*/
+
 #include <cmath>
 #include <iostream>
 #include <vector>

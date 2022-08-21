@@ -23,8 +23,8 @@ int main(){
 
         while(num*num - D*den*den != 1){
             m = d * a - m;
-            d = (D - m * m) / d;
-            a = (limit + m) / d;
+            d = (int)((D - m * m) / d);
+            a = (int)((limit + m) / d);
 
             uint64_t numm2 = numm1;
             numm1 = num;
@@ -32,7 +32,7 @@ int main(){
             denm1 = den;
 
             num = a*numm1 + numm2;
-            den = a * denm1 + denm2;
+            den = a*denm1 + denm2;
         }
 
         if (num > pmax) {

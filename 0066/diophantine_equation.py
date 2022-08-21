@@ -33,9 +33,9 @@ import math
 result = 0
 pmax = 0
  
-for D in range(2,13):
+for D in range(2,1000):
     limit = int(math.sqrt(D))
-    if (limit * limit == D):pass
+    if (limit * limit == D):continue
 
     m = 0
     d = 1

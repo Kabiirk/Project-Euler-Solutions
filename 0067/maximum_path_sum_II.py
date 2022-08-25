@@ -26,10 +26,17 @@ Answer :
 TIPS:
 
 '''
-
+num_triangle = []
 with open('p067_triangle.txt') as f:
    while True:
       line = f.readline()
       if not line:
          break
-      print(line.strip())
+      num_array = list(map(int, line.strip().split(" ")))
+      # print(line.strip().split(" "))
+      if(len(num_array) == 0):
+            break
+      else:
+         num_triangle.append(num_array)
+
+print(num_triangle)

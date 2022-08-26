@@ -24,16 +24,30 @@ Answer :
 
 '''
 TIPS:
+Similar to Problem 18
 
 '''
+
 num_triangle = []
+'''
+num_triangles = 
+[
+   ['59'],
+   ['73', '41'],
+   ['52', '40', '09'],
+   ['26', '53', '06', '34'],
+   ['10', '51', '87', '86', '81'],
+   ['61', '95', '66', '57', '25', '68'],
+   ......
+]
+
+'''
 with open('p067_triangle.txt') as f:
    while True:
       line = f.readline()
       if not line:
          break
       num_array = list(map(int, line.strip().split(" ")))
-      # print(line.strip().split(" "))
       if(len(num_array) == 0):
             break
       else:

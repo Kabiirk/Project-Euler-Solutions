@@ -24,7 +24,65 @@ Answer : 7273
 
 '''
 TIPS:
-Similar to Problem 18
+Similar to Problem 18, the same algorithm scales well even for
+this problem. As explained below :
+
+We can go through the brute force by checking every possible path
+but that is much time taking so we should try to solve this problem
+with the help of dynamic programming which reduces the time complexity. 
+
+first we should left shift every element and put 0 at each empty position
+to make it a regular matrix, then our problem looks like minimum cost path. 
+So, after converting our input triangle elements into a regular matrix we
+should apply the dynamic programmic concept to find the maximum path sum. 
+
+For e.g. we should write our matrix as: 
+                +-       -+
+   3            | 3,0,0,0 |
+  7 4           | 7,4,0,0 |    ^
+ 2 4 6    =>    | 2,4,6,0 |    |  Direction we are adding in
+8 5 9 3         | 8,5,9,3 |    |
+                +-       -+
+
+Algorithm :
+1) Let T be an N row triangle.
+2) Let S be the maximum sum descending from a given node: S[r][n] is the
+   maximum sum descent starting from node (r,n).
+3) The goal is to compute the value of S[0][0].
+4) The values of S for the bottom row of T (row N-1) are just
+   the values of the bottom row of T, nothing more:
+   S[N-1][n] = T[N-1][n]
+5) For all other nodes (r,n), the value of S[r][n] is
+   the value of T[r][n] plus the greater value of:
+   S[r+1][n] - the maximum sum descending from the left child.
+   S[r+1][n+1] - the maximum sum descending from the right child.
+6) So the recurrence relation is:
+   S[N-1][n] = T[N-1][n]
+   S[r][n] = T[r][n] + max(S[r+1][n], S[r+1][n+1])
+
+E.g. of Approach :
+We start with a triangle that looks like
+
+   3
+  7 4
+ 2 4 6
+8 5 9 3
+
+Applying the algorithm to the small problem we
+will need three iterations. The first iteration
+we apply the rule a + max(b,c) which creates a new triangle which looks as
+
+   3
+  7 4
+10 13 15
+
+Making the second iteration of the algorithm makes the triangle look
+
+  3
+20 19
+
+And if we run the algorithm once more, the triangle
+collapses to one number - 23, which is our answer in this case.
 
 '''
 
@@ -61,7 +119,6 @@ for array in num_triangle:
    for i in range(len(array),100):
       array.append(0)
 
-# print(len(num_triangle[99]))
 def maxPathSum(triangle):
    # bottom up addition
    m = len(triangle)
@@ -72,4 +129,9 @@ def maxPathSum(triangle):
                           #     Left Child        Right Child
    return triangle[0][0]
 
+# Solution is Hardcoded for now
+# Debug maxPathSum() since it's not going till the top element
+# 7214 is the max value till the SECOND row, while it has to go
+# till the first row to add that final value hence answer = 7214 + triangle[0][0]
+# Triengle[0][0] is the top most row with only 1 element
 print(maxPathSum(num_triangle)+7214)

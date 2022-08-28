@@ -19,7 +19,7 @@ second it would take over twenty billion years to check them all.
 
 There is an efficient algorithm to solve it. ;o)
 
-Answer :
+Answer : 7273
 '''
 
 '''
@@ -67,10 +67,9 @@ def maxPathSum(triangle):
    m = len(triangle)
    n = len(triangle[0])
    for i in range(m-2,0, -1):
-      print(i)
       for j in range(0,i+1):
          triangle[i][j] += max(triangle[i+1][j], triangle[i+1][j+1])
                           #     Left Child        Right Child
    return triangle[0][0]
 
-print(maxPathSum(num_triangle))
+print(maxPathSum(num_triangle)+7214)

@@ -90,12 +90,12 @@ num_triangle = []
 '''
 num_triangles = 
 [
-   [59,  0,  0,  0,  0.  0],
-   [73, 41,  0,  0,  0,  0],
-   [52, 40,  9,  0,  0,  0],
-   [26, 53,  6, 34,  0,  0],
-   [10, 51, 87, 86, 81,  0],
-   [61, 95, 66, 57, 25, 68],
+   [59,  0,  0,  0,  0, ..  0],
+   [73, 41,  0,  0,  0, ..  0],
+   [52, 40,  9,  0,  0, ..  0],
+   [26, 53,  6, 34,  0, ..  0],
+   [10, 51, 87, 86, 81, ..  0],
+   [61, 95, 66, 57, 25, .. 68],
    ......
 ]
 
@@ -120,18 +120,13 @@ for array in num_triangle:
       array.append(0)
 
 def maxPathSum(triangle):
-   # bottom up addition
-   m = len(triangle)
-   n = len(triangle[0])
-   for i in range(m-2,0, -1):
+   # Going up the triangle (bottom up addition)
+   # needs to go from 98 -> 0
+   for i in range(len(triangle)-2,-1, -1):
+      # setting item @ index of above array as higher sum in the pair.
       for j in range(0,i+1):
          triangle[i][j] += max(triangle[i+1][j], triangle[i+1][j+1])
                           #     Left Child        Right Child
    return triangle[0][0]
 
-# Solution is Hardcoded for now
-# Debug maxPathSum() since it's not going till the top element
-# 7214 is the max value till the SECOND row, while it has to go
-# till the first row to add that final value hence answer = 7214 + triangle[0][0]
-# Triengle[0][0] is the top most row with only 1 element
-print(maxPathSum(num_triangle)+7214)
+print(maxPathSum(num_triangle))

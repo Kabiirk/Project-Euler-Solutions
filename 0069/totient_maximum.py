@@ -31,7 +31,19 @@ TIPS:
 
 '''
 
-print("Hello Euler !!")
+# TODO:
+# implements Sieve of Eratosthenes to poppulate primes
+
+res = 1
+primes = []
+i = 0
+limit = 1000000
+
+while(res*primes[i] < limit):
+    res*=primes[i]
+    i+=1
+
+print(res)
 
 """
 ##    ## ####  ######  ######## 

@@ -23,21 +23,37 @@ It can be seen that n=6 produces a maximum n/φ(n) for n ≤ 10.
 
 Find the value of n ≤ 1,000,000 for which n/φ(n) is a maximum.
 
-Answer :
+Answer : 510510
 '''
 
 '''
 TIPS:
-
+Multiplying primes until we reach the largest number less than 1,000,000.
 '''
 
 # TODO:
 # implements Sieve of Eratosthenes to poppulate primes
 
+def sieve_of_eratosthenes(num_limit):
+    a = [True]*num_limit
+    a[0] = a[1] = False
+
+    for (i, isprime) in enumerate(a):
+        if isprime:
+            for n in range(i*i, num_limit, i):
+                a[n] = False
+
+    prime_list = []
+    for i in range(num_limit):
+        if(a[i]):
+            prime_list.append(i)
+
+    return prime_list
+
 res = 1
-primes = []
 i = 0
 limit = 1000000
+primes = sieve_of_eratosthenes(limit)
 
 while(res*primes[i] < limit):
     res*=primes[i]

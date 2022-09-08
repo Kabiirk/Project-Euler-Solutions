@@ -17,5 +17,36 @@ Answer :
 TIPS:
 
 '''
+from cmath import inf
 
-print("Hello Euler !!")
+
+def sieve_of_eratosthenes(num_limit):
+    a = [True]*num_limit
+    a[0] = a[1] = False
+
+    for (i, isprime) in enumerate(a):
+        if isprime:
+            for n in range(i*i, num_limit, i):
+                a[n] = False
+
+    prime_list = []
+    for i in range(num_limit):
+        if(a[i]):
+            prime_list.append(i)
+
+    return prime_list
+
+best = 1;
+phiBest = 1;
+bestRatio = inf;
+ 
+limit = 10000000;
+primes = sieve_of_eratosthenes(5000);
+ 
+for i in range(0, len(primes)):
+    for j in range(i+1, len(primes)):
+        n = primes[i]*primes[j]
+        if (n > limit): break;
+ 
+        phi = (primes[i] - 1) * (primes[j] - 1);
+        ratio = n / phi;

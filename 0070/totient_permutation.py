@@ -18,6 +18,7 @@ TIPS:
 
 '''
 from cmath import inf
+import string
 
 
 def sieve_of_eratosthenes(num_limit):
@@ -36,17 +37,48 @@ def sieve_of_eratosthenes(num_limit):
 
     return prime_list
 
-best = 1;
-phiBest = 1;
-bestRatio = inf;
- 
-limit = 10000000;
-primes = sieve_of_eratosthenes(5000);
- 
-for i in range(0, len(primes)):
-    for j in range(i+1, len(primes)):
-        n = primes[i]*primes[j]
-        if (n > limit): break;
- 
-        phi = (primes[i] - 1) * (primes[j] - 1);
-        ratio = n / phi;
+def is_permutation(a, b):
+    # TODO:
+    # Improve is_permutation() function
+    # Naive approach implemented for now
+
+    # tracker = [0,0,0,0,0,0,0,0,0,0]
+    # while a>0:
+    #     if(a%10==a):
+    #         break
+    #     tracker[a%10] += 1
+    #     a = a%10
+    # print(tracker)
+
+    # while b>0:
+    #     if(b%10==b):
+    #         break
+    #     tracker[b%10] -= 1
+    #     b = b%10
+    # print(tracker)
+
+    # return sum(tracker) == 0
+    return sorted(str(a))==sorted(str(b))
+
+def solve(limit):
+    primes = sieve_of_eratosthenes(int(1.2*(limit**0.5)))
+    min_q, min_n, i = 2,0,0
+    for p1 in primes:
+        i+=1
+        for p2 in primes[i:]:
+            if (p1+p2)%9 != 1:
+                continue
+            n = p1*p2
+            if n>limit:
+                return min_n
+            phi = (p1-1)*(p2-1)
+            q = n/float(phi)
+            if is_permutation(phi, n) and min_q>q:
+                min_q, min_n = q,n
+    return 0
+
+limit = 10000000
+
+
+print(solve(limit))
+

@@ -10,16 +10,13 @@ Interestingly, φ(87109)=79180, and it can be seen that 87109 is a permutation o
 
 Find the value of n, 1 < n < 107, for which φ(n) is a permutation of n and the ratio n/φ(n) produces a minimum.
 
-Answer :
+Answer : 8319823
 '''
 
 '''
 TIPS:
 
 '''
-from cmath import inf
-import string
-
 
 def sieve_of_eratosthenes(num_limit):
     a = [True]*num_limit
@@ -37,28 +34,50 @@ def sieve_of_eratosthenes(num_limit):
 
     return prime_list
 
-def is_permutation(a, b):
-    # TODO:
-    # Improve is_permutation() function
-    # Naive approach implemented for now
+def is_permutation_better(a, b):
+    '''
+    Counts how many frequency of digits in a number
+    i.e. how many 1,2,...,9's a number has
 
-    # tracker = [0,0,0,0,0,0,0,0,0,0]
-    # while a>0:
-    #     if(a%10==a):
-    #         break
-    #     tracker[a%10] += 1
-    #     a = a%10
-    # print(tracker)
+    2 Numbers are Permutations of each other
+    if they have the same fingerprint.
 
-    # while b>0:
-    #     if(b%10==b):
-    #         break
-    #     tracker[b%10] -= 1
-    #     b = b%10
-    # print(tracker)
+    Going through 'a' increments fingerprint indexes,
+    going through 'b' decrements fingerprint indexes
+    if both have same digits, final sum is 0.
+    as all counts incremented while traversing a
+    are reduced to zero while traversng through b
+    '''
+    fingerprint_a = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    fingerprint_b = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    #                0  1  2  3  4  5  6  7  8  9
 
-    # return sum(tracker) == 0
-    return sorted(str(a))==sorted(str(b))
+    # Handle -ve numbers
+    # Modulos of -ve numbers are complicated,
+    # so converting them to positives for now
+    # since that won't change any digits, only signs
+    # Ref.: https://math.stackexchange.com/questions/2179579/how-can-i-find-a-mod-with-negative-number
+    # Note this is done under the assumption that -1234 is a valid permutation of -4321
+    if a<0:
+        a = -a
+    if b<0:
+        b = -b
+
+    while a>0:
+        fingerprint_a[a%10]+=1
+        a = a//10
+
+    while b>0:
+        fingerprint_b[b%10]+=1
+        b = b//10
+
+    for k in range(len(fingerprint_a)):
+        if(fingerprint_a[k]!=fingerprint_b[k]):
+            return False
+
+    # Simple approach
+    # return sorted(str(a))==sorted(str(b))
+    return True
 
 def solve(limit):
     primes = sieve_of_eratosthenes(int(1.2*(limit**0.5)))
@@ -73,12 +92,10 @@ def solve(limit):
                 return min_n
             phi = (p1-1)*(p2-1)
             q = n/float(phi)
-            if is_permutation(phi, n) and min_q>q:
+            if is_permutation_better(phi, n) and min_q>q:
                 min_q, min_n = q,n
     return 0
 
+
 limit = 10000000
-
-
 print(solve(limit))
-

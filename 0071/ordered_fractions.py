@@ -18,7 +18,10 @@ Answer :
 
 '''
 TIPS:
-
+Say p/q < a/b
+=> pb <= aq
+=> pb <= aq-1
+=> p <= (aq-1)/b [subtracting 1 in case RHS is an integer , it would give an equality]
 '''
 
 LIMIT = 1000000

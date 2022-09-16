@@ -35,4 +35,16 @@ def sieve_of_eratosthenes(num_limit):
 
     return prime_list
 
-print("Hello Euler !!")
+primes=sieve_of_eratosthenes(1000000)
+s = 0
+def tot(n,primes):
+    result=n
+    for i in primes:
+        if n%i==0: result-=result/i
+    if result==n: result-=1
+    return result
+
+for n in range(2,1000+1):
+    s+=tot(n,primes)
+
+print(s)

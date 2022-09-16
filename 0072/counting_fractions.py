@@ -19,5 +19,20 @@ Answer :
 TIPS:
 Ref.: https://en.wikipedia.org/wiki/Farey_sequence
 '''
+def sieve_of_eratosthenes(num_limit):
+    a = [True]*num_limit
+    a[0] = a[1] = False
+
+    for (i, isprime) in enumerate(a):
+        if isprime:
+            for n in range(i*i, num_limit, i):
+                a[n] = False
+
+    prime_list = []
+    for i in range(num_limit):
+        if(a[i]):
+            prime_list.append(i)
+
+    return prime_list
 
 print("Hello Euler !!")

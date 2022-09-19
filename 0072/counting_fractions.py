@@ -37,3 +37,13 @@ def sieve_of_eratosthenes(num_limit):
 
 primes=sieve_of_eratosthenes(1000000)
 
+limit = 1000000;
+phi = list(enumerate(range(0, limit+1)))
+result = 0;
+for i in range(2,limit):
+    if (phi[i] == i):
+        for j in range(i, limit, i):
+            phi[j] = phi[j] / i * (i - 1)
+            result += phi[i]
+
+print(result)

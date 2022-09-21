@@ -35,6 +35,16 @@ def sieve_of_eratosthenes(num_limit):
 
     return prime_list
 
+def compute_hcf(x, y):
+    if x > y:
+        smaller = y
+    else:
+        smaller = x
+    for i in range(1, smaller+1):
+        if((x % i == 0) and (y % i == 0)):
+            hcf = i 
+    return hcf
+
 primes=sieve_of_eratosthenes(1000000)
 
 limit = 1000000;

@@ -45,6 +45,13 @@ def compute_hcf(x, y):
             hcf = i 
     return hcf
 
+def tot(n,primes):
+    result=n
+    for i in primes:
+        if n%i==0: result-=result/i
+    if result==n: result-=1
+    return result
+
 primes=sieve_of_eratosthenes(1000000)
 
 limit = 1000000;

@@ -18,6 +18,7 @@ Answer :
 '''
 TIPS:
 Ref.: https://en.wikipedia.org/wiki/Farey_sequence
+Ref.: https://arxiv.org/abs/0801.4966
 '''
 def sieve_of_eratosthenes(num_limit):
     a = [True]*num_limit
